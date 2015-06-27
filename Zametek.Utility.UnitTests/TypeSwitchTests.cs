@@ -37,7 +37,7 @@ namespace Zametek.Utility.UnitTests
         }
 
         [Test]
-        public void TypeSwitch_NullObject_TypeMatchedDefaultNotExecuted()
+        public void TypeSwitch_ObjectA_TypeMatchedDefaultNotExecuted()
         {
             object item = new A();
             bool referenceMatch = false;
@@ -59,7 +59,7 @@ namespace Zametek.Utility.UnitTests
         }
 
         [Test]
-        public void TypeSwitch_NullObject_SubTypeMatchedDefaultNotExecuted()
+        public void TypeSwitch_ObjectB1_SubTypeMatchedDefaultNotExecuted()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -81,7 +81,7 @@ namespace Zametek.Utility.UnitTests
         }
 
         [Test]
-        public void TypeSwitch_NullObject_SubTypeMatchedBeforeActualType()
+        public void TypeSwitch_ObjectB1_SubTypeMatchedBeforeActualType()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -109,7 +109,7 @@ namespace Zametek.Utility.UnitTests
         }
 
         [Test]
-        public void TypeSwitch_NullObject_ActualTypeMatchedBeforeSubType()
+        public void TypeSwitch_ObjectB1_ActualTypeMatchedBeforeSubType()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -137,7 +137,7 @@ namespace Zametek.Utility.UnitTests
         }
 
         [Test]
-        public void TypeSwitch_NullObject_ActualTypeMatchedAfterNonMatch()
+        public void TypeSwitch_ObjectB1_ActualTypeMatchedAfterNonMatch()
         {
             object item = new B1();
             bool referenceMatch = false;
