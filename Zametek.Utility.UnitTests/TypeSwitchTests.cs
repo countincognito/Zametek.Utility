@@ -42,97 +42,125 @@ namespace Zametek.Utility.UnitTests
             object item = new A();
             bool referenceMatch = false;
             bool defaultExecuted = false;
-            bool isTypeOfA = false;
+            bool isOfTypeA = false;
             item.TypeSwitchOn()
                 .Case<A>(x =>
                 {
                     referenceMatch = item == x;
-                    isTypeOfA = x is A;
+                    isOfTypeA = x is A;
                 })
                 .Default(x =>
                 {
                     defaultExecuted = true;
                 });
             Assert.IsTrue(referenceMatch);
-            Assert.IsTrue(isTypeOfA);
+            Assert.IsTrue(isOfTypeA);
             Assert.IsFalse(defaultExecuted);
         }
 
         [Test]
-        public void TypeSwitch_ObjectB1_SubTypeMatchedDefaultNotExecuted()
+        public void TypeSwitch_ObjectA_TypeMatchedOnlyOnce()
         {
-            object item = new B1();
+            object item = new A();
             bool referenceMatch = false;
             bool defaultExecuted = false;
-            bool isTypeOfA = false;
+            bool isOfTypeA = false;
+            bool isAlsoOfTypeA = false;
             item.TypeSwitchOn()
                 .Case<A>(x =>
                 {
                     referenceMatch = item == x;
-                    isTypeOfA = x is A;
+                    isOfTypeA = x is A;
+                })
+                .Case<A>(x =>
+                {
+                    isAlsoOfTypeA = x is A;
                 })
                 .Default(x =>
                 {
                     defaultExecuted = true;
                 });
             Assert.IsTrue(referenceMatch);
-            Assert.IsTrue(isTypeOfA);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(isAlsoOfTypeA);
             Assert.IsFalse(defaultExecuted);
         }
 
         [Test]
-        public void TypeSwitch_ObjectB1_SubTypeMatchedBeforeActualType()
+        public void TypeSwitch_ObjectB1_ParentTypeMatchedDefaultNotExecuted()
         {
             object item = new B1();
             bool referenceMatch = false;
             bool defaultExecuted = false;
-            bool isTypeOfA = false;
-            bool isTypeOfB1 = false;
+            bool isOfTypeA = false;
             item.TypeSwitchOn()
                 .Case<A>(x =>
                 {
                     referenceMatch = item == x;
-                    isTypeOfA = x is A;
+                    isOfTypeA = x is A;
+                })
+                .Default(x =>
+                {
+                    defaultExecuted = true;
+                });
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(defaultExecuted);
+        }
+
+        [Test]
+        public void TypeSwitch_ObjectB1_ParentTypeMatchedBeforeActualType()
+        {
+            object item = new B1();
+            bool referenceMatch = false;
+            bool defaultExecuted = false;
+            bool isOfTypeA = false;
+            bool isOfTypeB1 = false;
+            item.TypeSwitchOn()
+                .Case<A>(x =>
+                {
+                    referenceMatch = item == x;
+                    isOfTypeA = x is A;
                 })
                 .Case<B1>(x =>
                 {
-                    isTypeOfB1 = x is B1;
+                    isOfTypeB1 = x is B1;
                 })
                 .Default(x =>
                 {
                     defaultExecuted = true;
                 });
             Assert.IsTrue(referenceMatch);
-            Assert.IsTrue(isTypeOfA);
-            Assert.IsFalse(isTypeOfB1);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(isOfTypeB1);
             Assert.IsFalse(defaultExecuted);
         }
 
         [Test]
-        public void TypeSwitch_ObjectB1_ActualTypeMatchedBeforeSubType()
+        public void TypeSwitch_ObjectB1_ActualTypeMatchedBeforeParentType()
         {
             object item = new B1();
             bool referenceMatch = false;
             bool defaultExecuted = false;
-            bool isTypeOfA = false;
-            bool isTypeOfB1 = false;
+            bool isOfTypeA = false;
+            bool isOfTypeB1 = false;
             item.TypeSwitchOn()
                 .Case<B1>(x =>
                 {
                     referenceMatch = item == x;
-                    isTypeOfB1 = x is B1;
+                    isOfTypeB1 = x is B1;
                 })
                 .Case<A>(x =>
                 {
-                    isTypeOfA = x is A;
+                    isOfTypeA = x is A;
                 })
                 .Default(x =>
                 {
                     defaultExecuted = true;
                 });
             Assert.IsTrue(referenceMatch);
-            Assert.IsFalse(isTypeOfA);
-            Assert.IsTrue(isTypeOfB1);
+            Assert.IsFalse(isOfTypeA);
+            Assert.IsTrue(isOfTypeB1);
             Assert.IsFalse(defaultExecuted);
         }
 
@@ -142,31 +170,31 @@ namespace Zametek.Utility.UnitTests
             object item = new B1();
             bool referenceMatch = false;
             bool defaultExecuted = false;
-            bool isTypeOfA = false;
-            bool isTypeOfB1 = false;
-            bool isTypeOfB2 = false;
+            bool isOfTypeA = false;
+            bool isOfTypeB1 = false;
+            bool isOfTypeB2 = false;
             item.TypeSwitchOn()
                 .Case<B2>(x =>
                 {
-                    isTypeOfB2 = x is B2;
+                    isOfTypeB2 = x is B2;
                 })
                 .Case<B1>(x =>
                 {
                     referenceMatch = item == x;
-                    isTypeOfB1 = x is B1;
+                    isOfTypeB1 = x is B1;
                 })
                 .Case<A>(x =>
                 {
-                    isTypeOfA = x is A;
+                    isOfTypeA = x is A;
                 })
                 .Default(x =>
                 {
                     defaultExecuted = true;
                 });
             Assert.IsTrue(referenceMatch);
-            Assert.IsFalse(isTypeOfA);
-            Assert.IsTrue(isTypeOfB1);
-            Assert.IsFalse(isTypeOfB2);
+            Assert.IsFalse(isOfTypeA);
+            Assert.IsTrue(isOfTypeB1);
+            Assert.IsFalse(isOfTypeB2);
             Assert.IsFalse(defaultExecuted);
         }
     }
