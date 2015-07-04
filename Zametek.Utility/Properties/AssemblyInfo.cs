@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Zametek.Utility")]
-[assembly: AssemblyCopyright("Copyright © Riccardo M. Bennett-Lovsey,  2015")]
+[assembly: AssemblyCopyright("Copyright © 2015 Riccardo M. Bennett-Lovsey")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
