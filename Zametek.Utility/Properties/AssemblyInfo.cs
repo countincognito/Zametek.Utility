@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Zametek.Utility")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Zametek.Utility")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Riccardo M. Bennett-Lovsey")]
 [assembly: AssemblyProduct("Zametek.Utility")]
-[assembly: AssemblyCopyright("Copyright © 2015 Riccardo M. Bennett-Lovsey")]
+[assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
