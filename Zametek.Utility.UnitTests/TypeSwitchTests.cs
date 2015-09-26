@@ -17,7 +17,6 @@ namespace Zametek.Utility.UnitTests
         {
             object item = null;
             item.TypeSwitchOn();
-            Assert.Pass();
         }
 
         [Test]
