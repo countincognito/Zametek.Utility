@@ -10,6 +10,6 @@
         <projectUrl>https://github.com/countincognito/Zametek.Utility</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Zametek utility classes.</description>
-        <copyright>Copyright © 2015 Riccardo M. Bennett-Lovsey</copyright>
+        <copyright>Copyright (C) 2015 Riccardo M. Bennett-Lovsey</copyright>
     </metadata>
 </package>
