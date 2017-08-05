@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Zametek.Utility.UnitTests
 {
-    [TestFixture]
+    [TestClass]
     public class TypeSwitchTests
     {
         private class A
@@ -12,14 +12,14 @@ namespace Zametek.Utility.UnitTests
         private class B2 : A
         { }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_NullObject_NoException()
         {
             object item = null;
             item.TypeSwitchOn();
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_NullObject_DefaultExecuted()
         {
             object item = null;
@@ -35,7 +35,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsTrue(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectA_TypeMatchedDefaultNotExecuted()
         {
             object item = new A();
@@ -57,7 +57,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsFalse(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectA_TypeMatchedOnlyOnce()
         {
             object item = new A();
@@ -85,7 +85,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsFalse(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectB1_ParentTypeMatchedDefaultNotExecuted()
         {
             object item = new B1();
@@ -107,7 +107,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsFalse(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectB1_ParentTypeMatchedBeforeActualType()
         {
             object item = new B1();
@@ -135,7 +135,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsFalse(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectB1_ActualTypeMatchedBeforeParentType()
         {
             object item = new B1();
@@ -163,7 +163,7 @@ namespace Zametek.Utility.UnitTests
             Assert.IsFalse(defaultExecuted);
         }
 
-        [Test]
+        [TestMethod]
         public void TypeSwitch_ObjectB1_ActualTypeMatchedAfterNonMatch()
         {
             object item = new B1();

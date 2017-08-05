@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Zametek.Utility
 {
@@ -29,9 +30,9 @@ namespace Zametek.Utility
             }
             if (!m_Handled)
             {
-                Type sourceType = m_Source.GetType();
-                Type targetType = typeof(TTarget);
-                if (targetType.IsAssignableFrom(sourceType))
+                TypeInfo sourceTypeInfo = m_Source.GetType().GetTypeInfo();
+                TypeInfo targetTypeInfo = typeof(TTarget).GetTypeInfo();
+                if (targetTypeInfo.IsAssignableFrom(sourceTypeInfo))
                 {
                     action((TTarget)m_Source);
                     m_Handled = true;
