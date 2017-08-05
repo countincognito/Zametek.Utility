@@ -1,20 +1,38 @@
-version: 1.0.{build}
+install:
+  - choco install gitversion.portable -pre -y
+
 branches:
   only:
   - master
 skip_non_tags: true
+
+platform: Any CPU
+configuration: Release
 image: Visual Studio 2017
+
+assembly_info:
+  patch: false
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '{version}'
   package_version: '{version}'
+  
 before_build:
-- cmd: nuget restore
+  - nuget restore
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+
 build:
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: normal
+
+after_build:
+  - cmd: ECHO nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
+
 deploy:
 - provider: NuGet
   api_key:
