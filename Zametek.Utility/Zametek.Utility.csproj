@@ -8,9 +8,10 @@
     <Company />
     <PackageLicenseUrl>https://github.com/countincognito/Zametek.Utility/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/countincognito/Zametek.Utility</PackageProjectUrl>
-    <Description>Zametek utility classes</Description>
+    <Description>Zametek utility classes.</Description>
     <Copyright>Copyright (c) 2017 Riccardo M Bennett-Lovsey</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
