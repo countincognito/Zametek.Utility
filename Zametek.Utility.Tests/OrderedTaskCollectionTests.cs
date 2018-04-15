@@ -28,23 +28,15 @@ namespace Zametek.Utility.UnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void OrderedTaskCollection_CtorWhenCalledWithNullFuncList_ShouldThrowArgumentNullException()
+        public async Task OrderedTaskCollection_ForeachWhenCalledWithTimedTasks_ShouldReturnInCorrectOrder()
         {
-            var tasks = new OrderedTaskCollection<int>((IEnumerable<Func<int>>)null);
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void OrderedTaskCollection_ForeachWhenCalledWithTimedTasks_ShouldReturnInCorrectOrder()
-        {
-            var task0 = Task.FromResult(0);
-            var task1 = Task.Run<int>(() =>
+            var task1 = Task.Run(() =>
             {
                 Thread.Sleep(100);
                 return 1;
             });
-            var task2 = Task.Run<int>(() =>
+            var task0 = Task.FromResult(0);
+            var task2 = Task.Run(() =>
             {
                 Thread.Sleep(200);
                 return 2;
@@ -60,37 +52,7 @@ namespace Zametek.Utility.UnitTests
 
             foreach (Task<int> task in tasks)
             {
-                results.Add(task.Result);
-            }
-
-            Assert.AreEqual(0, results[0]);
-            Assert.AreEqual(1, results[1]);
-            Assert.AreEqual(2, results[2]);
-        }
-
-        [TestMethod]
-        public void OrderedTaskCollection_ForeachWhenCalledWithTimedFuncs_ShouldReturnInCorrectOrder()
-        {
-            var tasks = new OrderedTaskCollection<int>(
-               new List<Func<int>>(new Func<int>[]
-            {
-               () =>
-               {
-                   Thread.Sleep(100);
-                   return 1;
-               },
-               () => 0,
-               () =>
-               {
-                   Thread.Sleep(200);
-                   return 2;
-               },
-            }));
-            var results = new List<int>();
-
-            foreach (Task<int> task in tasks)
-            {
-                results.Add(task.Result);
+                results.Add(await task);
             }
 
             Assert.AreEqual(0, results[0]);
@@ -100,21 +62,25 @@ namespace Zametek.Utility.UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(AggregateException))]
-        public void OrderedTaskCollection_ForeachFuncs_ShouldReturnInCorrectOrder()
+        public async Task OrderedTaskCollection_ForeachWhenCalledWithExceptionTasks_ShouldThrowAggregateException()
         {
-            var tasks = new OrderedTaskCollection<int>(
-               new List<Func<int>>(new Func<int>[]
+            Func<int> throwsException = () =>
             {
-               () =>
-               {
-                   throw new Exception();
-               },
-            }));
+                throw new Exception();
+            };
+
+            Task<int> task0 = Task.Run(throwsException);
+            var tasks = new OrderedTaskCollection<int>(
+                new[]
+                {
+                    task0,
+                });
             var results = new List<int>();
             foreach (Task<int> task in tasks)
             {
-                results.Add(task.Result);
+                results.Add(await task);
             }
+
             Assert.Fail();
         }
     }

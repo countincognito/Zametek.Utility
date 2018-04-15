@@ -19,11 +19,6 @@ namespace Zametek.Utility
 
         #region Ctors
 
-        public OrderedTaskCollection(IEnumerable<Func<T>> lambdas)
-            : this(lambdas.Select(x => Task.Run(x)))
-        {
-        }
-
         public OrderedTaskCollection(IEnumerable<Task<T>> tasks)
         {
             if (tasks == null)
@@ -33,7 +28,7 @@ namespace Zametek.Utility
             m_PendingTasks = new List<Task<T>>(tasks);
             m_CompletedTasks = new Queue<Task<T>>();
             m_CompletionSources = new Queue<TaskCompletionSource<T>>();
-            foreach (Task<T> task in m_PendingTasks)
+            foreach (Task<T> task in tasks)
             {
                 task.ContinueWith(x =>
                 {
