@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zametek.Utility", "Zametek.Utility\Zametek.Utility.csproj", "{0EA1630B-16AA-41CC-8325-16D359805506}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zametek.Utility", "src\Zametek.Utility\Zametek.Utility.csproj", "{0EA1630B-16AA-41CC-8325-16D359805506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zametek.Utility.Tests", "Zametek.Utility.Tests\Zametek.Utility.Tests.csproj", "{9435AC5B-9B08-4518-B283-782E2F587F4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zametek.Utility.Tests", "test\Zametek.Utility.Tests\Zametek.Utility.Tests.csproj", "{9435AC5B-9B08-4518-B283-782E2F587F4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
