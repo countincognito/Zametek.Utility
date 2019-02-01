@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Zametek.Utility.UnitTests
+namespace Zametek.Utility.Tests
 {
     [TestClass]
     public class TypeSwitchTests

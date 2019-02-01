@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="OrderedTaskCollectionTests.cs" />
     <Compile Include="TrackingContextTests.cs" />
+    <Compile Include="ValueSwitchTests.cs" />
     <Compile Include="TypeSwitchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

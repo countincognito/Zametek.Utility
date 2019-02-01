@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Zametek.Utility.UnitTests
+namespace Zametek.Utility.Tests
 {
     [TestClass]
     public class OrderedTaskCollectionTests

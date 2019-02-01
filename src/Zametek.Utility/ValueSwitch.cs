@@ -4,42 +4,46 @@ namespace Zametek.Utility
 {
     public static class ValueSwitch
     {
-        public static ValueSwitch<T> ValueSwitchOn<T>(this T value)
-            where T : struct
+        public static ValueSwitch<TSource> ValueSwitchOn<TSource>(this TSource value)
+            where TSource : IEquatable<TSource>
         {
-            return new ValueSwitch<T>(value);
+            return new ValueSwitch<TSource>(value);
         }
     }
 
-    public class ValueSwitch<T>
-        where T : struct
+    public class ValueSwitch<TSource>
+        where TSource : IEquatable<TSource>
     {
-        private readonly T m_SourceValue;
+        private readonly TSource m_Source;
         private bool m_Handled = false;
 
-        internal ValueSwitch(T value)
+        internal ValueSwitch(TSource value)
         {
-            m_SourceValue = value;
+            m_Source = value;
         }
 
-        public ValueSwitch<T> Case(T value, Action<T> action)
+        public ValueSwitch<TSource> Case(TSource value, Action<TSource> action)
         {
+            if (m_Source == null)
+            {
+                return this;
+            }
             if (!m_Handled)
             {
-                if (value.Equals(m_SourceValue))
+                if (value.Equals(m_Source))
                 {
-                    action(m_SourceValue);
+                    action(m_Source);
                     m_Handled = true;
                 }
             }
             return this;
         }
 
-        public void Default(Action<T> action)
+        public void Default(Action<TSource> action)
         {
             if (!m_Handled)
             {
-                action(m_SourceValue);
+                action(m_Source);
             }
         }
     }
