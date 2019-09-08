@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -162,7 +163,6 @@ namespace Zametek.Utility.Tests
             Assert.AreEqual(true, results[2]);
         }
 
-
         [TestMethod]
         public async Task TrackingContext_NestedMultipleTasks_CallChainIdPersists()
         {
@@ -211,6 +211,56 @@ namespace Zametek.Utility.Tests
             Assert.IsTrue(result2);
             Assert.IsTrue(result3);
             Assert.IsTrue(result4);
+        }
+
+
+
+
+
+
+
+
+
+
+
+        [TestMethod]
+        public void TrackingContext_MultipleParallelTasks_NewContextAlwaysCreated()
+        {
+            TrackingContext.NewCurrent();
+
+            Guid masterCallChainId = TrackingContext.Current.CallChainId;
+
+            var runningTasks = new List<Task>();
+
+            var results = new ConcurrentStack<bool>();
+            var nullChecks = new ConcurrentStack<bool>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                runningTasks.Add(Task.Run(() =>
+                {
+                    TrackingContext.NewCurrent();
+
+                    Guid newCallChainId = TrackingContext.Current.CallChainId;
+
+                    results.Push(newCallChainId == masterCallChainId);
+                    nullChecks.Push(newCallChainId == Guid.Empty);
+                }));
+            }
+
+            Task.WaitAll(runningTasks.ToArray());
+
+            foreach (bool result in results)
+            {
+                Assert.IsFalse(result);
+            }
+
+            foreach (bool nullCheck in nullChecks)
+            {
+                Assert.IsFalse(nullCheck);
+            }
+
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
     }
 }
