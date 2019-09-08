@@ -70,9 +70,12 @@ namespace Zametek.Utility.Tests
                 results.Add(await task);
             }
 
-            Assert.AreEqual(true, results[0]);
-            Assert.AreEqual(true, results[1]);
-            Assert.AreEqual(true, results[2]);
+            foreach (bool result in results)
+            {
+                Assert.IsTrue(result);
+            }
+
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
 
         [TestMethod]
@@ -111,9 +114,12 @@ namespace Zametek.Utility.Tests
                 results.Add(await task);
             }
 
-            Assert.AreEqual(true, results[0]);
-            Assert.AreEqual(true, results[1]);
-            Assert.AreEqual(true, results[2]);
+            foreach (bool result in results)
+            {
+                Assert.IsTrue(result);
+            }
+
+            Assert.IsTrue(masterOriginatorUtcTimestamp == TrackingContext.Current.OriginatorUtcTimestamp);
         }
 
         [TestMethod]
@@ -158,9 +164,10 @@ namespace Zametek.Utility.Tests
                 results.Add(await task);
             }
 
-            Assert.AreEqual(true, results[0]);
-            Assert.AreEqual(true, results[1]);
-            Assert.AreEqual(true, results[2]);
+            foreach (bool result in results)
+            {
+                Assert.IsTrue(result);
+            }
         }
 
         [TestMethod]
@@ -211,40 +218,126 @@ namespace Zametek.Utility.Tests
             Assert.IsTrue(result2);
             Assert.IsTrue(result3);
             Assert.IsTrue(result4);
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
 
+        [TestMethod]
+        public async Task TrackingContext_NestedMultipleTasks_CallChainIdCorresponds()
+        {
+            TrackingContext.NewCurrentIfEmpty();
 
+            Guid masterCallChainId = TrackingContext.Current.CallChainId;
 
+            bool result0 = false;
+            bool result1 = false;
+            bool result2 = false;
+            bool result3 = false;
+            bool result4 = false;
+            bool result5 = false;
+            bool result6 = false;
+            bool result7 = false;
+            bool result8 = false;
+            bool result9 = false;
+            bool result10 = false;
+            bool result11 = false;
 
+            await Task.Run(async () =>
+            {
+                TrackingContext tc0 = TrackingContext.Current;
+                result0 = masterCallChainId == tc0.CallChainId;
 
+                await Task.Run(async () =>
+                {
+                    TrackingContext tc1 = TrackingContext.Current;
+                    result1 = masterCallChainId == tc1.CallChainId;
 
+                    TrackingContext.NewCurrent();
 
+                    TrackingContext tc2 = TrackingContext.Current;
 
+                    result2 = tc1.CallChainId != tc2.CallChainId && tc2.CallChainId != Guid.Empty;
 
+                    await Task.Run(() =>
+                    {
+                        TrackingContext tc3 = TrackingContext.Current;
+                        result3 = tc2.CallChainId == tc3.CallChainId;
 
+                        TrackingContext.NewCurrent();
+
+                        TrackingContext tc4 = TrackingContext.Current;
+
+                        result4 = tc3.CallChainId != tc4.CallChainId && tc4.CallChainId != Guid.Empty;
+                    });
+
+                    TrackingContext tc5 = TrackingContext.Current;
+
+                    result5 = tc2.CallChainId == tc5.CallChainId;
+                });
+
+                await Task.Run(async () =>
+                {
+                    TrackingContext tc1 = TrackingContext.Current;
+                    result6 = masterCallChainId == tc1.CallChainId;
+
+                    TrackingContext.NewCurrent();
+
+                    TrackingContext tc2 = TrackingContext.Current;
+
+                    result7 = tc1.CallChainId != tc2.CallChainId && tc2.CallChainId != Guid.Empty;
+
+                    await Task.Run(() =>
+                    {
+                        TrackingContext tc3 = TrackingContext.Current;
+                        result8 = tc2.CallChainId == tc3.CallChainId;
+
+                        TrackingContext.NewCurrent();
+
+                        TrackingContext tc4 = TrackingContext.Current;
+
+                        result9 = tc3.CallChainId != tc4.CallChainId && tc4.CallChainId != Guid.Empty;
+                    });
+
+                    TrackingContext tc5 = TrackingContext.Current;
+
+                    result10 = tc2.CallChainId == tc5.CallChainId;
+                });
+
+                TrackingContext tc6 = TrackingContext.Current;
+                result11 = tc0.CallChainId == tc6.CallChainId;
+            });
+
+            Assert.IsTrue(result0);
+            Assert.IsTrue(result1);
+            Assert.IsTrue(result2);
+            Assert.IsTrue(result3);
+            Assert.IsTrue(result4);
+            Assert.IsTrue(result5);
+
+            Assert.IsTrue(result6);
+            Assert.IsTrue(result7);
+            Assert.IsTrue(result8);
+            Assert.IsTrue(result9);
+            Assert.IsTrue(result10);
+            Assert.IsTrue(result11);
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
+        }
 
         [TestMethod]
         public void TrackingContext_MultipleParallelTasks_NewContextAlwaysCreated()
         {
-            TrackingContext.NewCurrent();
-
-            Guid masterCallChainId = TrackingContext.Current.CallChainId;
-
-            var runningTasks = new List<Task>();
-
             var results = new ConcurrentStack<bool>();
             var nullChecks = new ConcurrentStack<bool>();
 
-            for (int i = 0; i < 100; i++)
+            var runningTasks = new List<Task>();
+
+            for (int i = 0; i < 10; i++)
             {
                 runningTasks.Add(Task.Run(() =>
                 {
-                    TrackingContext.NewCurrent();
+                    TrackingContext.ClearCurrent();
+                    Assert.IsNull(TrackingContext.Current);
 
-                    Guid newCallChainId = TrackingContext.Current.CallChainId;
-
-                    results.Push(newCallChainId == masterCallChainId);
-                    nullChecks.Push(newCallChainId == Guid.Empty);
+                    ParallelTester.Test(i, results, nullChecks);
                 }));
             }
 
@@ -259,8 +352,35 @@ namespace Zametek.Utility.Tests
             {
                 Assert.IsFalse(nullCheck);
             }
+        }
 
-            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
+
+
+        public class ParallelTester
+        {
+            public static void Test(int i, ConcurrentStack<bool> results, ConcurrentStack<bool> nullChecks)
+            {
+                Task.Delay(100 * i).GetAwaiter().GetResult();
+
+                TrackingContext.NewCurrent();
+
+                Guid masterCallChainId = TrackingContext.Current.CallChainId;
+
+                Task.Run(() =>
+                {
+                    Task.Delay(200 * i).GetAwaiter().GetResult();
+
+                    TrackingContext.NewCurrent();
+
+                    Guid newCallChainId = TrackingContext.Current.CallChainId;
+
+                    results.Push(newCallChainId == masterCallChainId);
+                    nullChecks.Push(newCallChainId == Guid.Empty);
+                }).GetAwaiter().GetResult();
+
+                Assert.IsNotNull(TrackingContext.Current);
+                Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
+            }
         }
     }
 }
