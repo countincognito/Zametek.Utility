@@ -1,22 +1,22 @@
-﻿using FluentAssertions;
-using Xunit;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Zametek.Utility.Tests
 {
+    [TestClass]
     public class ValueSwitchTests
     {
         private readonly string A = nameof(A);
         private readonly string B = nameof(B);
 
-        [Fact]
-        public void ValueSwitch_GivenNullString_ThenNoException()
+        [TestMethod]
+        public void ValueSwitch_NullString_NoException()
         {
             string item = null;
             item.ValueSwitchOn();
         }
 
-        [Fact]
-        public void ValueSwitch_GivenNullString_ThenDefaultExecuted()
+        [TestMethod]
+        public void ValueSwitch_NullString_DefaultExecuted()
         {
             string item = null;
             bool valueMatch = false;
@@ -27,12 +27,12 @@ namespace Zametek.Utility.Tests
                     valueMatch = string.Equals(item, x);
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            defaultExecuted.Should().BeTrue();
+            Assert.IsTrue(valueMatch);
+            Assert.IsTrue(defaultExecuted);
         }
 
-        [Fact]
-        public void ValueSwitch_GivenStringA_ThenValueMatchedDefaultNotExecuted()
+        [TestMethod]
+        public void ValueSwitch_StringA_ValueMatchedDefaultNotExecuted()
         {
             string item = A;
             bool valueMatch = false;
@@ -48,13 +48,13 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(valueMatch);
+            Assert.IsTrue(equalsA);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void ValueSwitch_GivenStringA_ThenValueMatchedOnlyOnce()
+        [TestMethod]
+        public void ValueSwitch_StringA_ValueMatchedOnlyOnce()
         {
             string item = A;
             bool valueMatch = false;
@@ -75,14 +75,14 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeTrue();
-            alsoEqualsA.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(valueMatch);
+            Assert.IsTrue(equalsA);
+            Assert.IsFalse(alsoEqualsA);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void ValueSwitch_GivenStringB_ThenValueMatchedAfterNonMatch()
+        [TestMethod]
+        public void ValueSwitch_StringB_ValueMatchedAfterNonMatch()
         {
             string item = B;
             bool valueMatch = false;
@@ -103,10 +103,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeFalse();
-            equalsB.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(valueMatch);
+            Assert.IsFalse(equalsA);
+            Assert.IsTrue(equalsB);
+            Assert.IsFalse(defaultExecuted);
         }
     }
 }

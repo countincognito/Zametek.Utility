@@ -1,17 +1,17 @@
-﻿using FluentAssertions;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Zametek.Utility.Tests
 {
+    [TestClass]
     public class TrackingContextTests
     {
-        [Fact]
-        public void TrackingContext_GivenSerializeAndDeserialize_ThenSuccess()
+        [TestMethod]
+        public void TrackingContext_SerializeAndDeserialize_Success()
         {
             var extraHeaders = new Dictionary<string, string>()
             {
@@ -28,14 +28,14 @@ namespace Zametek.Utility.Tests
 
             TrackingContext tc2 = TrackingContext.DeSerialize(bytes);
 
-            bytes.Should().NotBeEmpty();
-            tc2.CallChainId.Should().Be(tc1.CallChainId);
-            tc2.OriginatorUtcTimestamp.Should().Be(tc1.OriginatorUtcTimestamp);
-            tc2.ExtraHeaders.ToList().Should().BeEquivalentTo(tc1.ExtraHeaders.ToList());
+            Assert.AreNotEqual(0, bytes.Length);
+            Assert.AreEqual(tc1.CallChainId, tc2.CallChainId);
+            Assert.AreEqual(tc1.OriginatorUtcTimestamp, tc2.OriginatorUtcTimestamp);
+            CollectionAssert.AreEquivalent(tc1.ExtraHeaders.ToList(), tc2.ExtraHeaders.ToList());
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenMultipleTasks_ThenCallChainIdPersists()
+        [TestMethod]
+        public async Task TrackingContext_MultipleTasks_CallChainIdPersists()
         {
             TrackingContext.NewCurrentIfEmpty();
 
@@ -72,14 +72,14 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                Assert.IsTrue(result);
             }
 
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenMultipleTasks_ThenOriginatorUtcTimestampPersists()
+        [TestMethod]
+        public async Task TrackingContext_MultipleTasks_OriginatorUtcTimestampPersists()
         {
             TrackingContext.NewCurrentIfEmpty();
 
@@ -116,14 +116,14 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                Assert.IsTrue(result);
             }
 
-            TrackingContext.Current.OriginatorUtcTimestamp.Should().Be(masterOriginatorUtcTimestamp);
+            Assert.IsTrue(masterOriginatorUtcTimestamp == TrackingContext.Current.OriginatorUtcTimestamp);
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenMultipleTasks_ThenExtraHeadersPersists()
+        [TestMethod]
+        public async Task TrackingContext_MultipleTasks_ExtraHeadersPersists()
         {
             var extraHeaders = new Dictionary<string, string>()
             {
@@ -166,12 +166,12 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                Assert.IsTrue(result);
             }
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenNestedMultipleTasks_ThenCallChainIdPersists()
+        [TestMethod]
+        public async Task TrackingContext_NestedMultipleTasks_CallChainIdPersists()
         {
             TrackingContext.NewCurrentIfEmpty();
 
@@ -213,16 +213,16 @@ namespace Zametek.Utility.Tests
                 });
             });
 
-            result0.Should().BeTrue();
-            result1.Should().BeTrue();
-            result2.Should().BeTrue();
-            result3.Should().BeTrue();
-            result4.Should().BeTrue();
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            Assert.IsTrue(result0);
+            Assert.IsTrue(result1);
+            Assert.IsTrue(result2);
+            Assert.IsTrue(result3);
+            Assert.IsTrue(result4);
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenNestedMultipleTasks_ThenCallChainIdCorresponds()
+        [TestMethod]
+        public async Task TrackingContext_NestedMultipleTasks_CallChainIdCorresponds()
         {
             TrackingContext.NewCurrentIfEmpty();
 
@@ -306,23 +306,24 @@ namespace Zametek.Utility.Tests
                 result11 = tc0.CallChainId == tc6.CallChainId;
             });
 
-            result0.Should().BeTrue();
-            result1.Should().BeTrue();
-            result2.Should().BeTrue();
-            result3.Should().BeTrue();
-            result4.Should().BeTrue();
-            result5.Should().BeTrue();
-            result6.Should().BeTrue();
-            result7.Should().BeTrue();
-            result8.Should().BeTrue();
-            result9.Should().BeTrue();
-            result10.Should().BeTrue();
-            result11.Should().BeTrue();
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            Assert.IsTrue(result0);
+            Assert.IsTrue(result1);
+            Assert.IsTrue(result2);
+            Assert.IsTrue(result3);
+            Assert.IsTrue(result4);
+            Assert.IsTrue(result5);
+
+            Assert.IsTrue(result6);
+            Assert.IsTrue(result7);
+            Assert.IsTrue(result8);
+            Assert.IsTrue(result9);
+            Assert.IsTrue(result10);
+            Assert.IsTrue(result11);
+            Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
         }
 
-        [Fact]
-        public async Task TrackingContext_GivenMultipleParallelTasks_ThenNewContextAlwaysCreated()
+        [TestMethod]
+        public async Task TrackingContext_MultipleParallelTasks_NewContextAlwaysCreated()
         {
             var results = new ConcurrentStack<bool>();
             var nullChecks = new ConcurrentStack<bool>();
@@ -334,7 +335,7 @@ namespace Zametek.Utility.Tests
                 runningTasks.Add(Task.Run(() =>
                 {
                     TrackingContext.ClearCurrent();
-                    TrackingContext.Current.Should().BeNull();
+                    Assert.IsNull(TrackingContext.Current);
 
                     ParallelTester.Test(i, results, nullChecks);
                 }));
@@ -344,12 +345,12 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeFalse();
+                Assert.IsFalse(result);
             }
 
             foreach (bool nullCheck in nullChecks)
             {
-                nullCheck.Should().BeFalse();
+                Assert.IsFalse(nullCheck);
             }
         }
 
@@ -377,8 +378,8 @@ namespace Zametek.Utility.Tests
                     nullChecks.Push(newCallChainId == Guid.Empty);
                 }).GetAwaiter().GetResult();
 
-                TrackingContext.Current.Should().NotBeNull();
-                TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+                Assert.IsNotNull(TrackingContext.Current);
+                Assert.IsTrue(masterCallChainId == TrackingContext.Current.CallChainId);
             }
         }
     }

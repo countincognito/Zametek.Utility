@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zametek.Utility", "src\Zametek.Utility\Zametek.Utility.csproj", "{0EA1630B-16AA-41CC-8325-16D359805506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zametek.Utility.Tests", "test\Zametek.Utility.Tests\Zametek.Utility.Tests.csproj", "{9435AC5B-9B08-4518-B283-782E2F587F4E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61EB9FF9-8609-444F-99B7-C07BC466D825}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C9D2884C-0A68-4FB9-97F3-B9B9CDAE3474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zametek.Utility.Tests", "test\Zametek.Utility.Tests\Zametek.Utility.Tests.csproj", "{6774D6CC-F247-4A18-8506-BD1263B13D5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,19 @@ Global
 		{0EA1630B-16AA-41CC-8325-16D359805506}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EA1630B-16AA-41CC-8325-16D359805506}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EA1630B-16AA-41CC-8325-16D359805506}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9435AC5B-9B08-4518-B283-782E2F587F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9435AC5B-9B08-4518-B283-782E2F587F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9435AC5B-9B08-4518-B283-782E2F587F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9435AC5B-9B08-4518-B283-782E2F587F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6774D6CC-F247-4A18-8506-BD1263B13D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6774D6CC-F247-4A18-8506-BD1263B13D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6774D6CC-F247-4A18-8506-BD1263B13D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6774D6CC-F247-4A18-8506-BD1263B13D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0EA1630B-16AA-41CC-8325-16D359805506} = {61EB9FF9-8609-444F-99B7-C07BC466D825}
+		{6774D6CC-F247-4A18-8506-BD1263B13D5F} = {C9D2884C-0A68-4FB9-97F3-B9B9CDAE3474}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7A2AAC9-74FF-4CFE-80EB-F52D3470E5DA}
 	EndGlobalSection
 EndGlobal

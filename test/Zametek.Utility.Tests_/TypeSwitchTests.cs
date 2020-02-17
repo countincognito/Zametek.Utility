@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
-using Xunit;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Zametek.Utility.Tests
 {
+    [TestClass]
     public class TypeSwitchTests
     {
         private class A
@@ -12,15 +12,15 @@ namespace Zametek.Utility.Tests
         private class B2 : A
         { }
 
-        [Fact]
-        public void TypeSwitch_GivenNullObject_ThenNoException()
+        [TestMethod]
+        public void TypeSwitch_NullObject_NoException()
         {
             object item = null;
             item.TypeSwitchOn();
         }
 
-        [Fact]
-        public void TypeSwitch_GivenNullObject_ThenDefaultExecuted()
+        [TestMethod]
+        public void TypeSwitch_NullObject_DefaultExecuted()
         {
             object item = null;
             bool referenceMatch = false;
@@ -31,12 +31,12 @@ namespace Zametek.Utility.Tests
                     referenceMatch = item == x;
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            defaultExecuted.Should().BeTrue();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectA_ThenTypeMatchedDefaultNotExecuted()
+        [TestMethod]
+        public void TypeSwitch_ObjectA_TypeMatchedDefaultNotExecuted()
         {
             object item = new A();
             bool referenceMatch = false;
@@ -52,13 +52,13 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectA_ThenTypeMatchedOnlyOnce()
+        [TestMethod]
+        public void TypeSwitch_ObjectA_TypeMatchedOnlyOnce()
         {
             object item = new A();
             bool referenceMatch = false;
@@ -79,14 +79,14 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isAlsoOfTypeA.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(isAlsoOfTypeA);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectB1_ThenParentTypeMatchedDefaultNotExecuted()
+        [TestMethod]
+        public void TypeSwitch_ObjectB1_ParentTypeMatchedDefaultNotExecuted()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -102,13 +102,13 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectB1_ThenParentTypeMatchedBeforeActualType()
+        [TestMethod]
+        public void TypeSwitch_ObjectB1_ParentTypeMatchedBeforeActualType()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -129,14 +129,14 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isOfTypeB1.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsTrue(isOfTypeA);
+            Assert.IsFalse(isOfTypeB1);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectB1_ThenActualTypeMatchedBeforeParentType()
+        [TestMethod]
+        public void TypeSwitch_ObjectB1_ActualTypeMatchedBeforeParentType()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -157,14 +157,14 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsFalse(isOfTypeA);
+            Assert.IsTrue(isOfTypeB1);
+            Assert.IsFalse(defaultExecuted);
         }
 
-        [Fact]
-        public void TypeSwitch_GivenObjectB1_ThenActualTypeMatchedAfterNonMatch()
+        [TestMethod]
+        public void TypeSwitch_ObjectB1_ActualTypeMatchedAfterNonMatch()
         {
             object item = new B1();
             bool referenceMatch = false;
@@ -190,11 +190,11 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            isOfTypeB2.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            Assert.IsTrue(referenceMatch);
+            Assert.IsFalse(isOfTypeA);
+            Assert.IsTrue(isOfTypeB1);
+            Assert.IsFalse(isOfTypeB2);
+            Assert.IsFalse(defaultExecuted);
         }
     }
 }
