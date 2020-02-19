@@ -28,12 +28,17 @@ namespace Zametek.Utility
             {
                 return this;
             }
+
             if (!m_Handled)
             {
                 TypeInfo sourceTypeInfo = m_Source.GetType().GetTypeInfo();
                 TypeInfo targetTypeInfo = typeof(TTarget).GetTypeInfo();
                 if (targetTypeInfo.IsAssignableFrom(sourceTypeInfo))
                 {
+                    if (action == null)
+                    {
+                        throw new ArgumentNullException(nameof(action));
+                    }
                     action((TTarget)m_Source);
                     m_Handled = true;
                 }
@@ -45,6 +50,10 @@ namespace Zametek.Utility
         {
             if (!m_Handled)
             {
+                if (action == null)
+                {
+                    throw new ArgumentNullException(nameof(action));
+                }
                 action(m_Source);
             }
         }

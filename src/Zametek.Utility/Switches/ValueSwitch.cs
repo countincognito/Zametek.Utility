@@ -32,6 +32,10 @@ namespace Zametek.Utility
             {
                 if (value.Equals(m_Source))
                 {
+                    if (action == null)
+                    {
+                        throw new ArgumentNullException(nameof(action));
+                    }
                     action(m_Source);
                     m_Handled = true;
                 }
@@ -43,6 +47,10 @@ namespace Zametek.Utility
         {
             if (!m_Handled)
             {
+                if (action == null)
+                {
+                    throw new ArgumentNullException(nameof(action));
+                }
                 action(m_Source);
             }
         }

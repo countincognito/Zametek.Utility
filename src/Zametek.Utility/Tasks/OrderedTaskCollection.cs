@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zametek.Utility
@@ -10,10 +11,10 @@ namespace Zametek.Utility
     {
         #region Fields
 
-        private object m_Lock = new object();
-        private Queue<TaskCompletionSource<T>> m_CompletionSources;
-        private IList<Task<T>> m_PendingTasks;
-        private Queue<Task<T>> m_CompletedTasks;
+        private readonly object m_Lock = new object();
+        private readonly Queue<TaskCompletionSource<T>> m_CompletionSources;
+        private readonly IList<Task<T>> m_PendingTasks;
+        private readonly Queue<Task<T>> m_CompletedTasks;
 
         #endregion
 
@@ -23,28 +24,28 @@ namespace Zametek.Utility
         {
             if (tasks == null)
             {
-                throw new ArgumentNullException("tasks");
+                throw new ArgumentNullException(nameof(tasks));
             }
             m_PendingTasks = new List<Task<T>>(tasks);
             m_CompletedTasks = new Queue<Task<T>>();
             m_CompletionSources = new Queue<TaskCompletionSource<T>>();
             foreach (Task<T> task in tasks)
             {
-                task.ContinueWith(x =>
+                task.ContinueWith(item =>
                 {
                     lock (m_Lock)
                     {
-                        m_PendingTasks.Remove(x);
+                        m_PendingTasks.Remove(item);
                         if (m_CompletionSources.Any())
                         {
-                            SetResult(m_CompletionSources.Dequeue(), x);
+                            SetResult(m_CompletionSources.Dequeue(), item);
                         }
                         else
                         {
-                            m_CompletedTasks.Enqueue(x);
+                            m_CompletedTasks.Enqueue(item);
                         }
                     }
-                });
+                }, TaskScheduler.Default);
             }
         }
 
@@ -89,11 +90,11 @@ namespace Zametek.Utility
         {
             if (tcs == null)
             {
-                throw new ArgumentNullException("tcs");
+                throw new ArgumentNullException(nameof(tcs));
             }
             if (task == null)
             {
-                throw new ArgumentNullException("task");
+                throw new ArgumentNullException(nameof(task));
             }
             if (task.IsFaulted)
             {

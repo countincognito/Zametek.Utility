@@ -17,7 +17,7 @@ namespace Zametek.Utility
     {
         #region Fields
 
-        private static AsyncLocal<ConcurrentDictionary<Type, AsyncLocal<byte[]>>> s_State = new AsyncLocal<ConcurrentDictionary<Type, AsyncLocal<byte[]>>>();
+        private static readonly AsyncLocal<ConcurrentDictionary<Type, AsyncLocal<byte[]>>> s_State = new AsyncLocal<ConcurrentDictionary<Type, AsyncLocal<byte[]>>>();
 
         #endregion
 
@@ -46,12 +46,6 @@ namespace Zametek.Utility
             return state;
         }
 
-        private static bool IsDataContract(Type type)
-        {
-            object[] attributes = type.GetCustomAttributes(typeof(DataContractAttribute), false);
-            return attributes.Any();
-        }
-
         #endregion
 
         #region Public Members
@@ -63,7 +57,7 @@ namespace Zametek.Utility
         /// <param name="data">The object to store in the call context.</param>
         public static void SetData<T>(T data) where T : class
         {
-            Debug.Assert(IsDataContract(typeof(T)) || typeof(T).IsSerializable);
+            Debug.Assert(ConversionExtensions.CanSerialize(typeof(T)));
 
             if (data == null)
             {
@@ -71,7 +65,7 @@ namespace Zametek.Utility
             }
 
             ConcurrentDictionary<Type, AsyncLocal<byte[]>> state = GetOrCreateState();
-            state.GetOrAdd(typeof(T), _ => new AsyncLocal<byte[]>()).Value = Serialize(data);
+            state.GetOrAdd(typeof(T), _ => new AsyncLocal<byte[]>()).Value = data.ObjectToByteArray();
             State = state;
         }
 
@@ -82,7 +76,7 @@ namespace Zametek.Utility
         /// <returns>The object in the call context associated with the specified name, or <see langword="null"/> if not found.</returns>
         public static T GetData<T>() where T : class
         {
-            Debug.Assert(IsDataContract(typeof(T)) || typeof(T).IsSerializable);
+            Debug.Assert(ConversionExtensions.CanSerialize(typeof(T)));
 
             ConcurrentDictionary<Type, AsyncLocal<byte[]>> state = GetOrCreateState();
 
@@ -93,7 +87,7 @@ namespace Zametek.Utility
                     return null;
                 }
 
-                return DeSerialize<T>(data.Value);
+                return data.Value.ByteArrayToObject<T>();
             }
 
             return null;
@@ -102,34 +96,8 @@ namespace Zametek.Utility
         public static void Clear<T>() where T : class
         {
             ConcurrentDictionary<Type, AsyncLocal<byte[]>> state = GetOrCreateState();
-            state.TryRemove(typeof(T), out AsyncLocal<byte[]> data);
+            state.TryRemove(typeof(T), out _);
             State = state;
-        }
-
-        public static byte[] Serialize<T>(T obj) where T : class
-        {
-            Debug.Assert(IsDataContract(typeof(T)) || typeof(T).IsSerializable);
-
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
-            string json = JsonConvert.SerializeObject(obj);
-            return Encoding.UTF8.GetBytes(json);
-        }
-
-        public static T DeSerialize<T>(byte[] array) where T : class
-        {
-            Debug.Assert(IsDataContract(typeof(T)) || typeof(T).IsSerializable);
-
-            if (array == null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-
-            string json = Encoding.UTF8.GetString(array);
-            return JsonConvert.DeserializeObject<T>(json);
         }
 
         #endregion

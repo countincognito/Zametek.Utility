@@ -90,7 +90,8 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(trackingContext));
             }
-            return AmbientContext.Serialize(trackingContext);
+
+            return trackingContext.ObjectToByteArray();
         }
 
         public static TrackingContext DeSerialize(byte[] array)
@@ -99,7 +100,8 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(array));
             }
-            return AmbientContext.DeSerialize<TrackingContext>(array);
+
+            return array.ByteArrayToObject<TrackingContext>();
         }
 
         /// <summary>
