@@ -2,6 +2,13 @@
 
 namespace Zametek.Utility
 {
+    /// <summary>
+    /// Based on the following:
+    /// https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types
+    /// https://lostechies.com/jimmybogard/2008/08/12/enumeration-classes/
+    /// https://stackoverflow.com/questions/630803/associating-enums-with-strings-in-c-sharp
+    /// https://www.meziantou.net/smart-enums-type-safe-enums-in-dotnet.htm
+    /// </summary>
     public abstract class SafeEnumString<T>
        : SafeEnumBase<string>, IEquatable<T>, IComparable<T>, IComparable where T : SafeEnumString<T>
     {
