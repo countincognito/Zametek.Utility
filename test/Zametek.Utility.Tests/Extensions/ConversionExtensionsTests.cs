@@ -14,9 +14,9 @@ namespace Zametek.Utility.Tests
             new DummyObjectDataContract().IsDataContract().Should().BeTrue();
             new DummyObjectSerializable().IsDataContract().Should().BeFalse();
 
-            ConversionExtensions.IsDataContract(typeof(DummyObject)).Should().BeFalse();
-            ConversionExtensions.IsDataContract(typeof(DummyObjectDataContract)).Should().BeTrue();
-            ConversionExtensions.IsDataContract(typeof(DummyObjectSerializable)).Should().BeFalse();
+            typeof(DummyObject).IsDataContract().Should().BeFalse();
+            typeof(DummyObjectDataContract).IsDataContract().Should().BeTrue();
+            typeof(DummyObjectSerializable).IsDataContract().Should().BeFalse();
         }
 
         [Fact]
@@ -26,9 +26,9 @@ namespace Zametek.Utility.Tests
             new DummyObjectDataContract().CanSerialize().Should().BeTrue();
             new DummyObjectSerializable().CanSerialize().Should().BeTrue();
 
-            ConversionExtensions.CanSerialize(typeof(DummyObject)).Should().BeFalse();
-            ConversionExtensions.CanSerialize(typeof(DummyObjectDataContract)).Should().BeTrue();
-            ConversionExtensions.CanSerialize(typeof(DummyObjectSerializable)).Should().BeTrue();
+            typeof(DummyObject).CanSerialize().Should().BeFalse();
+            typeof(DummyObjectDataContract).CanSerialize().Should().BeTrue();
+            typeof(DummyObjectSerializable).CanSerialize().Should().BeTrue();
         }
 
         [Fact]
@@ -46,13 +46,13 @@ namespace Zametek.Utility.Tests
             act.Should().NotThrow();
 
 
-            act = () => ConversionExtensions.ThrowIfCannotSerialize(typeof(DummyObject));
+            act = () => typeof(DummyObject).ThrowIfCannotSerialize();
             act.Should().Throw<InvalidOperationException>();
 
-            act = () => ConversionExtensions.ThrowIfCannotSerialize(typeof(DummyObjectDataContract));
+            act = () => typeof(DummyObjectDataContract).ThrowIfCannotSerialize();
             act.Should().NotThrow();
 
-            act = () => ConversionExtensions.ThrowIfCannotSerialize(typeof(DummyObjectSerializable));
+            act = () => typeof(DummyObjectSerializable).ThrowIfCannotSerialize();
             act.Should().NotThrow();
         }
 

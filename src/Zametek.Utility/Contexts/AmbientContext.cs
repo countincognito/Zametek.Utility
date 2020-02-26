@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 
 namespace Zametek.Utility
@@ -57,7 +53,7 @@ namespace Zametek.Utility
         /// <param name="data">The object to store in the call context.</param>
         public static void SetData<T>(T data) where T : class
         {
-            Debug.Assert(ConversionExtensions.CanSerialize(typeof(T)));
+            Debug.Assert(typeof(T).CanSerialize());
 
             if (data == null)
             {
@@ -76,7 +72,7 @@ namespace Zametek.Utility
         /// <returns>The object in the call context associated with the specified name, or <see langword="null"/> if not found.</returns>
         public static T GetData<T>() where T : class
         {
-            Debug.Assert(ConversionExtensions.CanSerialize(typeof(T)));
+            Debug.Assert(typeof(T).CanSerialize());
 
             ConcurrentDictionary<Type, AsyncLocal<byte[]>> state = GetOrCreateState();
 

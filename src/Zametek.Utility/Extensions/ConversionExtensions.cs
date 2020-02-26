@@ -9,7 +9,7 @@ namespace Zametek.Utility
 {
     public static class ConversionExtensions
     {
-        public static bool IsDataContract(Type input)
+        public static bool IsDataContract(this Type input)
         {
             if (input == null)
             {
@@ -25,16 +25,16 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            return IsDataContract(input.GetType());
+            return input.GetType().IsDataContract();
         }
 
-        public static bool CanSerialize(Type input)
+        public static bool CanSerialize(this Type input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            return IsDataContract(input) || input.IsSerializable;
+            return input.IsDataContract() || input.IsSerializable;
         }
 
         public static bool CanSerialize<T>(this T input)
@@ -43,16 +43,16 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            return CanSerialize(input.GetType());
+            return input.GetType().CanSerialize();
         }
 
-        public static void ThrowIfCannotSerialize(Type input)
+        public static void ThrowIfCannotSerialize(this Type input)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            if (!CanSerialize(input))
+            if (!input.CanSerialize())
             {
                 throw new InvalidOperationException($"Type {input.FullName} cannot be serialized or deserialized.");
             }
@@ -64,7 +64,7 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            ThrowIfCannotSerialize(input.GetType());
+            input.GetType().ThrowIfCannotSerialize();
         }
 
         public static byte[] StringToByteArray(this string input)
