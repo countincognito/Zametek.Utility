@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Reflection;
 
 namespace Zametek.Utility
 {
@@ -15,7 +16,7 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            object[] attributes = input.GetCustomAttributes(typeof(DataContractAttribute), false);
+            var attributes = input.GetTypeInfo().GetCustomAttributes(typeof(DataContractAttribute), false);
             return attributes.Any();
         }
 
@@ -34,7 +35,7 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            return input.IsDataContract() || input.IsSerializable;
+            return input.IsDataContract() || input.GetTypeInfo().IsSerializable;
         }
 
         public static bool CanSerialize<T>(this T input)

@@ -20,7 +20,7 @@ namespace Zametek.Utility
 
             Type type = typeof(T);
 
-            if (!type.IsEnum)
+            if (!type.GetTypeInfo().IsEnum)
             {
                 throw new InvalidOperationException($@"Type {type.FullName} is not an Enum.");
             }
@@ -29,7 +29,7 @@ namespace Zametek.Utility
 
             if (!Enum.IsDefined(type, intValue))
             {
-                throw new InvalidEnumArgumentException(argumentName, intValue, type);
+                throw new InvalidOperationException($@"Value {intValue} for Enum {type.FullName} is not defined");
             }
         }
 
@@ -42,7 +42,7 @@ namespace Zametek.Utility
 
             FieldInfo field = value.GetType().GetField(value.ToString());
 
-            return Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute
+            return field.GetCustomAttribute(typeof(DescriptionAttribute)) is DescriptionAttribute attribute
                 ? attribute.Description
                 : value.ToString();
         }
@@ -51,14 +51,14 @@ namespace Zametek.Utility
         {
             Type type = typeof(T);
 
-            if (!type.IsEnum)
+            if (!type.GetTypeInfo().IsEnum)
             {
                 throw new InvalidOperationException($@"Type {type.FullName} is not an Enum.");
             }
 
             foreach (var field in type.GetFields())
             {
-                if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+                if (field.GetCustomAttribute(typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
                 {
                     if (attribute.Description.Equals(description, StringComparison.OrdinalIgnoreCase))
                     {

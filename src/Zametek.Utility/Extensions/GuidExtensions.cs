@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Zametek.Utility
 {
@@ -7,12 +6,12 @@ namespace Zametek.Utility
     {
         public static string ToDashedString(this Guid input)
         {
-            return input.ToString(@"D", CultureInfo.InvariantCulture);
+            return input.ToString(@"D");
         }
 
         public static string ToFlatString(this Guid input)
         {
-            return input.ToString(@"N", CultureInfo.InvariantCulture);
+            return input.ToString(@"N");
         }
 
         public static string ToPathString(this Guid input)

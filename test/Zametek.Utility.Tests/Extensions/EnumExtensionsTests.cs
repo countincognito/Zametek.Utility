@@ -16,11 +16,11 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public void EnumExtensions_GivenValidateValue_WhenEnumIsInvalid_ThenThrowsInvalidEnumArgumentException()
+        public void EnumExtensions_GivenValidateValue_WhenEnumIsInvalid_ThenThrowsInvalidOperationException()
         {
             DummyEnum dummyEnum = (DummyEnum)100;
             Action act = () => dummyEnum.ValidateValue<DummyEnum>(nameof(dummyEnum));
-            act.Should().Throw<InvalidEnumArgumentException>();
+            act.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]

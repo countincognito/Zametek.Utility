@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Zametek.Utility
 {
-    [Serializable]
+    [DataContract]
     public class TrackingContext
     {
         private static readonly object s_Lock = new object();
@@ -48,16 +49,19 @@ namespace Zametek.Utility
             }
         }
 
+        [DataMember]
         public Guid CallChainId
         {
             get;
         }
 
+        [DataMember]
         public DateTime OriginatorUtcTimestamp
         {
             get;
         }
 
+        [DataMember]
         public IReadOnlyDictionary<string, string> ExtraHeaders
         {
             get;
