@@ -15,10 +15,13 @@ namespace Zametek.Utility.Tests
     [DataContract]
     public class DummyObjectDataContract
     {
+        [DataMember]
         public int IntegerValue { get; set; }
 
+        [DataMember]
         public double DoubleValue { get; set; }
 
+        [DataMember]
         public string StringValue { get; set; }
     }
 

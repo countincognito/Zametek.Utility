@@ -10,7 +10,7 @@ namespace Zametek.Utility
         private readonly Func<T, int> m_LambdaHash;
 
         public LambdaEqualityComparer(Func<T, T, bool> lambdaEqualityComparer) :
-            this(lambdaEqualityComparer, x => 0)
+            this(lambdaEqualityComparer, x => x.GetHashCode())
         {
         }
 

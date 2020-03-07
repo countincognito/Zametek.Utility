@@ -6,11 +6,14 @@ namespace Zametek.Utility.Tests
     public class TypeSwitchTests
     {
         private class A
-        { }
+        {
+        }
         private class B1 : A
-        { }
+        {
+        }
         private class B2 : A
-        { }
+        {
+        }
 
         [Fact]
         public void TypeSwitch_GivenNullObject_ThenNoException()

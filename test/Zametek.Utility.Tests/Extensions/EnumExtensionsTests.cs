@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using System;
-using System.ComponentModel;
 using Xunit;
 
 namespace Zametek.Utility.Tests
@@ -23,52 +22,52 @@ namespace Zametek.Utility.Tests
             act.Should().Throw<InvalidOperationException>();
         }
 
-        [Fact]
-        public void EnumExtensions_GivenGetDescription_WhenEnumHasDescription_ThenDescriptionReturned()
+        [Theory]
+        [InlineData(DummyEnum.StateA, @"A")]
+        [InlineData(DummyEnum.StateB, @"B")]
+        [InlineData(DummyEnum.StateC, @"C")]
+        [InlineData(DummyEnum.StateD, nameof(DummyEnum.StateD))]
+        [InlineData(DummyEnum.StateE, nameof(DummyEnum.StateE))]
+        [InlineData(DummyEnum.StateF, nameof(DummyEnum.StateF))]
+        public void EnumExtensions_GivenGetDescription_WhenEnumHasDescription_ThenDescriptionReturned(
+            DummyEnum @enum,
+            string description)
         {
-            DummyEnum.StateA.GetDescription().Should().Be(@"A");
-            DummyEnum.StateB.GetDescription().Should().Be(@"B");
-            DummyEnum.StateC.GetDescription().Should().Be(@"C");
+            @enum.GetDescription().Should().Be(description);
         }
 
-        [Fact]
-        public void EnumExtensions_GivenGetDescription_WhenEnumHasNoDescription_ThenNameOfEnumValueReturned()
+        [Theory]
+        [InlineData(@"A", DummyEnum.StateA)]
+        [InlineData(@"B", DummyEnum.StateB)]
+        [InlineData(@"C", DummyEnum.StateC)]
+        public void EnumExtensions_GivenGetValueFromDescription_WhenEnumHasDescription_ThenDescriptionReturned(
+            string description,
+            DummyEnum @enum)
         {
-            DummyEnum.StateD.GetDescription().Should().Be(nameof(DummyEnum.StateD));
-            DummyEnum.StateE.GetDescription().Should().Be(nameof(DummyEnum.StateE));
-            DummyEnum.StateF.GetDescription().Should().Be(nameof(DummyEnum.StateF));
-        }
-
-        [Fact]
-        public void EnumExtensions_GivenGetValueFromDescription_WhenEnumHasDescription_ThenDescriptionReturned()
-        {
-            @"A".GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-            @"B".GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateB);
-            @"C".GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateC);
+            description.GetValueFromDescription<DummyEnum>().Should().Be(@enum);
         }
 
         [Fact]
         public void EnumExtensions_GivenGetValueFromDescription_WhenSearchingRandomDescription_ThenDefaultReturned()
         {
-            Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-            Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-            Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
+            for (int i = 0; i < 10; i++)
+            {
+                Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
+            }
         }
 
-        [Fact]
-        public void EnumExtensions_GivenGetValueFromDescription_WhenSearchingNameOfEnumValueWithDescriptions_ThenDefaultReturned()
+        [Theory]
+        [InlineData(nameof(DummyEnum.StateA), DummyEnum.StateA)]
+        [InlineData(nameof(DummyEnum.StateB), DummyEnum.StateA)]
+        [InlineData(nameof(DummyEnum.StateC), DummyEnum.StateA)]
+        [InlineData(nameof(DummyEnum.StateD), DummyEnum.StateD)]
+        [InlineData(nameof(DummyEnum.StateE), DummyEnum.StateE)]
+        [InlineData(nameof(DummyEnum.StateF), DummyEnum.StateF)]
+        public void EnumExtensions_GivenGetValueFromDescription_WhenSearchingNameOfEnumValueWithDescriptions_ThenDefaultReturned(
+            string description,
+            DummyEnum @enum)
         {
-            nameof(DummyEnum.StateA).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-            nameof(DummyEnum.StateB).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-            nameof(DummyEnum.StateC).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
-        }
-
-        [Fact]
-        public void EnumExtensions_GivenGetValueFromDescription_WhenSearchingNameOfEnumValueWithoutDescriptions_ThenNameOfEnumValueReturned()
-        {
-            nameof(DummyEnum.StateD).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateD);
-            nameof(DummyEnum.StateE).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateE);
-            nameof(DummyEnum.StateF).GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateF);
+            description.GetValueFromDescription<DummyEnum>().Should().Be(@enum);
         }
     }
 }
