@@ -124,7 +124,7 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            input.ThrowIfCannotSerialize();
+            typeof(T).ThrowIfCannotSerialize();
             string json = input.ByteArrayToString();
             return JsonConvert.DeserializeObject<T>(json);
         }
@@ -155,7 +155,7 @@ namespace Zametek.Utility
             {
                 throw new ArgumentNullException(nameof(input));
             }
-            input.ThrowIfCannotSerialize();
+            typeof(T).ThrowIfCannotSerialize();
             return input.Base64StringToByteArray().ByteArrayToObject<T>();
         }
     }

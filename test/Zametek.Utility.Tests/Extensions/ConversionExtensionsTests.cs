@@ -57,7 +57,7 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public void ConversionExtensions_GivenObjectToByteArray_WhenObjectCanBeSerialized_ThenCorrectArrayCreated()
+        public void ConversionExtensions_GivenObjectToByteArray_WhenOutputCanBeSerialized_ThenCorrectArrayCreated()
         {
             var fixture = new Fixture();
             var input = fixture
@@ -75,7 +75,23 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public void ConversionExtensions_GivenObjectToBase64String_WhenObjectCanBeSerialized_ThenCorrectStringCreated()
+        public void ConversionExtensions_GivenObjectToByteArray_WhenOutputCannotBeSerialized_ThenThrowsInvalidOperationException()
+        {
+            var fixture = new Fixture();
+            var input = fixture
+                .Build<DummyObjectSerializable>()
+                .Create();
+
+            byte[] array = input.ObjectToByteArray();
+
+            array.Should().NotBeNullOrEmpty();
+
+            Action act = () => array.ByteArrayToObject<DummyObject>();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void ConversionExtensions_GivenObjectToBase64String_WhenOutputCanBeSerialized_ThenCorrectStringCreated()
         {
             var fixture = new Fixture();
             var input = fixture
@@ -93,7 +109,23 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public void ConversionExtensions_GivenCloneObject_WhenObjectCanBeSerialized_ThenDeepCloneCreated()
+        public void ConversionExtensions_GivenObjectToBase64String_WhenOutputCannotBeSerialized_ThenThrowsInvalidOperationException()
+        {
+            var fixture = new Fixture();
+            var input = fixture
+                .Build<DummyObjectSerializable>()
+                .Create();
+
+            string base64 = input.ObjectToBase64String();
+
+            base64.Should().NotBeNullOrEmpty();
+
+            Action act = () => base64.Base64StringToObject<DummyObject>();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void ConversionExtensions_GivenCloneObject_WhenOutputCanBeSerialized_ThenDeepCloneCreated()
         {
             var fixture = new Fixture();
             var input = fixture
