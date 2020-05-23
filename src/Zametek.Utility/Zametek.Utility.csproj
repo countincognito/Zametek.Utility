@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Zametek.Utility</RootNamespace>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Authors>countincognito</Authors>
     <Company />
     <PackageLicenseUrl></PackageLicenseUrl>
