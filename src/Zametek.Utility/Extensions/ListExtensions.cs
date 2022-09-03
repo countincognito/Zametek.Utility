@@ -69,9 +69,7 @@ namespace Zametek.Utility
             {
                 count--;
                 int newIndex = s_Rand.Next(count + 1);
-                T value = items[newIndex];
-                items[newIndex] = items[count];
-                items[count] = value;
+                (items[count], items[newIndex]) = (items[newIndex], items[count]);
             }
         }
     }

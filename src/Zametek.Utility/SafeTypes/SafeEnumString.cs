@@ -24,10 +24,10 @@ namespace Zametek.Utility
         public static implicit operator string(SafeEnumString<T> other) => other?.Value;
 
         public virtual bool Equals(T other) =>
-            other is null ? false : string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
+            !(other is null) && string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
 
         public override bool Equals(object other) =>
-            other is null ? false : string.Equals(Value, other.ToString(), StringComparison.OrdinalIgnoreCase);
+            !(other is null) && string.Equals(Value, other.ToString(), StringComparison.OrdinalIgnoreCase);
 
         public static bool operator ==(SafeEnumString<T> left, SafeEnumString<T> right) =>
             left is null ? right is null : left.Equals(right);

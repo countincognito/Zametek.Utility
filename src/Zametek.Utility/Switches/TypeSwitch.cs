@@ -46,6 +46,34 @@ namespace Zametek.Utility
             return this;
         }
 
+        public TypeSwitch<TSource> Case(Type targetType, Action<object> action)
+        {
+            if (m_Source == null)
+            {
+                return this;
+            }
+
+            if (!m_Handled)
+            {
+                if (targetType == null)
+                {
+                    throw new ArgumentNullException(nameof(targetType));
+                }
+                TypeInfo sourceTypeInfo = m_Source.GetType().GetTypeInfo();
+                TypeInfo targetTypeInfo = targetType.GetTypeInfo();
+                if (targetTypeInfo.IsAssignableFrom(sourceTypeInfo))
+                {
+                    if (action == null)
+                    {
+                        throw new ArgumentNullException(nameof(action));
+                    }
+                    action(m_Source);
+                    m_Handled = true;
+                }
+            }
+            return this;
+        }
+
         public void Default(Action<TSource> action)
         {
             if (!m_Handled)

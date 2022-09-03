@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Zametek.Utility</RootNamespace>
-    <Version>2.1.1</Version>
+    <Version>2.2.0</Version>
     <Authors>countincognito</Authors>
     <Company />
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/countincognito/Zametek.Utility</PackageProjectUrl>
     <Description>Zametek utility classes.</Description>
-    <Copyright>Copyright (c) 2020 Riccardo M Bennett-Lovsey</Copyright>
+    <Copyright>Copyright (c) 2022 Riccardo M Bennett-Lovsey</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -17,12 +17,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

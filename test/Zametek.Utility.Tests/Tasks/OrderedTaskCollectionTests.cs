@@ -23,7 +23,7 @@ namespace Zametek.Utility.Tests
         [Fact]
         public void OrderedTaskCollection_GivenCtor_WhenCalledWithNullTaskList_ThenShouldThrowArgumentNullException()
         {
-            Action act = () => new OrderedTaskCollection<int>((IEnumerable<Task<int>>)null);
+            Action act = () => new OrderedTaskCollection<int>(null);
             act.Should().Throw<ArgumentNullException>();
         }
 
