@@ -9,7 +9,7 @@ namespace Zametek.Utility
 
         public static IEnumerable<List<T>> ToBatches<T>(this List<T> items, int batchSize)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -26,7 +26,7 @@ namespace Zametek.Utility
 
         public static List<T> ToBatch<T>(this List<T> items, int batchNumber, int batchSize)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -51,7 +51,7 @@ namespace Zametek.Utility
 
         public static T RandomItem<T>(this List<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -60,7 +60,7 @@ namespace Zametek.Utility
 
         public static void Shuffle<T>(this IList<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }

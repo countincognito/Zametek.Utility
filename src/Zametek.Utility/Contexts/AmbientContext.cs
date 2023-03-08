@@ -33,7 +33,7 @@ namespace Zametek.Utility
         {
             ConcurrentDictionary<Type, AsyncLocal<byte[]>> state = State;
 
-            if (state == null)
+            if (state is null)
             {
                 state = new ConcurrentDictionary<Type, AsyncLocal<byte[]>>();
                 State = state;
@@ -55,7 +55,7 @@ namespace Zametek.Utility
         {
             Debug.Assert(typeof(T).CanSerialize());
 
-            if (data == null)
+            if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -78,7 +78,7 @@ namespace Zametek.Utility
 
             if (state.TryGetValue(typeof(T), out AsyncLocal<byte[]> data))
             {
-                if (data.Value == null)
+                if (data.Value is null)
                 {
                     return null;
                 }

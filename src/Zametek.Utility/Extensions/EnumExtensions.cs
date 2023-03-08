@@ -9,7 +9,7 @@ namespace Zametek.Utility
     {
         public static void ValidateValue<T>(this object value, string argumentName)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -35,7 +35,7 @@ namespace Zametek.Utility
 
         public static string GetDescription(this Enum value)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }

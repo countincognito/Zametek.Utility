@@ -21,7 +21,7 @@ namespace Zametek.Utility
 
         public OrderedTaskCollection(IEnumerable<Task<T>> tasks)
         {
-            if (tasks == null)
+            if (tasks is null)
             {
                 throw new ArgumentNullException(nameof(tasks));
             }
@@ -87,11 +87,11 @@ namespace Zametek.Utility
 
         private static void SetResult(TaskCompletionSource<T> tcs, Task<T> task)
         {
-            if (tcs == null)
+            if (tcs is null)
             {
                 throw new ArgumentNullException(nameof(tcs));
             }
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }

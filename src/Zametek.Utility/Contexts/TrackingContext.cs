@@ -74,14 +74,14 @@ namespace Zametek.Utility
 
         public static void NewCurrentIfEmpty(IDictionary<string, string> headers)
         {
-            if (headers == null)
+            if (headers is null)
             {
                 throw new ArgumentNullException(nameof(headers));
             }
             lock (s_Lock)
             {
                 TrackingContext tc = Current;
-                if (tc == null)
+                if (tc is null)
                 {
                     NewCurrent(headers);
                 }
@@ -90,7 +90,7 @@ namespace Zametek.Utility
 
         public static byte[] Serialize(TrackingContext trackingContext)
         {
-            if (trackingContext == null)
+            if (trackingContext is null)
             {
                 throw new ArgumentNullException(nameof(trackingContext));
             }
@@ -100,7 +100,7 @@ namespace Zametek.Utility
 
         public static TrackingContext DeSerialize(byte[] array)
         {
-            if (array == null)
+            if (array is null)
             {
                 throw new ArgumentNullException(nameof(array));
             }
@@ -144,7 +144,7 @@ namespace Zametek.Utility
         /// <param name="headers">Key-Value pairs to be included in the new current TrackingContext.</param>
         public static void NewCurrent(IDictionary<string, string> headers)
         {
-            if (headers == null)
+            if (headers is null)
             {
                 throw new ArgumentNullException(nameof(headers));
             }
@@ -161,7 +161,7 @@ namespace Zametek.Utility
 
         private static TrackingContext Create(IDictionary<string, string> headers)
         {
-            if (headers == null)
+            if (headers is null)
             {
                 throw new ArgumentNullException(nameof(headers));
             }

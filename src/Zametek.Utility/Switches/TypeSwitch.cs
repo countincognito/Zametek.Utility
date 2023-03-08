@@ -35,7 +35,7 @@ namespace Zametek.Utility
                 TypeInfo targetTypeInfo = typeof(TTarget).GetTypeInfo();
                 if (targetTypeInfo.IsAssignableFrom(sourceTypeInfo))
                 {
-                    if (action == null)
+                    if (action is null)
                     {
                         throw new ArgumentNullException(nameof(action));
                     }
@@ -55,7 +55,7 @@ namespace Zametek.Utility
 
             if (!m_Handled)
             {
-                if (targetType == null)
+                if (targetType is null)
                 {
                     throw new ArgumentNullException(nameof(targetType));
                 }
@@ -63,7 +63,7 @@ namespace Zametek.Utility
                 TypeInfo targetTypeInfo = targetType.GetTypeInfo();
                 if (targetTypeInfo.IsAssignableFrom(sourceTypeInfo))
                 {
-                    if (action == null)
+                    if (action is null)
                     {
                         throw new ArgumentNullException(nameof(action));
                     }
@@ -78,7 +78,7 @@ namespace Zametek.Utility
         {
             if (!m_Handled)
             {
-                if (action == null)
+                if (action is null)
                 {
                     throw new ArgumentNullException(nameof(action));
                 }

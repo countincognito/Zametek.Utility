@@ -11,7 +11,7 @@ namespace Zametek.Utility
     {
         public static bool IsDataContract(this Type input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -30,7 +30,7 @@ namespace Zametek.Utility
 
         public static bool CanSerialize(this Type input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -48,7 +48,7 @@ namespace Zametek.Utility
 
         public static void ThrowIfCannotSerialize(this Type input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -79,7 +79,7 @@ namespace Zametek.Utility
 
         public static string ByteArrayToString(this byte[] input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -99,7 +99,7 @@ namespace Zametek.Utility
 
         public static string ByteArrayToBase64String(this byte[] input)
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -109,7 +109,7 @@ namespace Zametek.Utility
 
         public static byte[] ObjectToByteArray<T>(this T input) where T : class
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -120,7 +120,7 @@ namespace Zametek.Utility
 
         public static T ByteArrayToObject<T>(this byte[] input) where T : class
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -131,7 +131,7 @@ namespace Zametek.Utility
 
         public static T CloneObject<T>(this T input) where T : class
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -141,7 +141,7 @@ namespace Zametek.Utility
 
         public static string ObjectToBase64String<T>(this T input) where T : class
         {
-            if (input == null)
+            if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }

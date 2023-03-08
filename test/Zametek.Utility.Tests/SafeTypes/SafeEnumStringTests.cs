@@ -12,7 +12,7 @@ namespace Zametek.Utility.Tests
         public void SafeEnumString_GivenNullValue_WhenEquatedToNull_ThenIsEqual()
         {
             DummySafeEnumString test = null;
-            (test == null).Should().BeTrue();
+            (test is null).Should().BeTrue();
             (test == DummySafeEnumString.StateA).Should().BeFalse();
         }
 
