@@ -22,7 +22,9 @@ namespace Zametek.Utility
             m_Source = value;
         }
 
-        public ValueSwitch<TSource> Case(TSource value, Action<TSource> action)
+        public ValueSwitch<TSource> Case(
+            TSource value,
+            Action<TSource> action)
         {
             if (m_Source == null)
             {

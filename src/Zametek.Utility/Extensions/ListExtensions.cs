@@ -7,7 +7,9 @@ namespace Zametek.Utility
     {
         private static readonly Random s_Rand = new Random();
 
-        public static IEnumerable<List<T>> ToBatches<T>(this List<T> items, int batchSize)
+        public static IEnumerable<List<T>> ToBatches<T>(
+            this List<T> items,
+            int batchSize)
         {
             if (items is null)
             {
@@ -24,7 +26,10 @@ namespace Zametek.Utility
             }
         }
 
-        public static List<T> ToBatch<T>(this List<T> items, int batchNumber, int batchSize)
+        public static List<T> ToBatch<T>(
+            this List<T> items,
+            int batchNumber,
+            int batchSize)
         {
             if (items is null)
             {

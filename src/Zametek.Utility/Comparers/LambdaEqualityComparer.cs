@@ -14,7 +14,9 @@ namespace Zametek.Utility
         {
         }
 
-        public LambdaEqualityComparer(Func<T, T, bool> lambdaEqualityComparer, Func<T, int> lambdaHash)
+        public LambdaEqualityComparer(
+            Func<T, T, bool> lambdaEqualityComparer,
+            Func<T, int> lambdaHash)
         {
             m_LambdaEqualityComparer = lambdaEqualityComparer ?? throw new ArgumentNullException(nameof(lambdaEqualityComparer));
             m_LambdaHash = lambdaHash ?? throw new ArgumentNullException(nameof(lambdaHash));

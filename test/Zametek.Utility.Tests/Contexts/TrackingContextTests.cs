@@ -37,7 +37,7 @@ namespace Zametek.Utility.Tests
         [Fact]
         public async Task TrackingContext_GivenMultipleTasks_ThenCallChainIdPersists()
         {
-            TrackingContext.NewCurrentIfEmpty();
+            TrackingContext.NewCurrent();
 
             Guid masterCallChainId = TrackingContext.Current.CallChainId;
 
@@ -81,7 +81,7 @@ namespace Zametek.Utility.Tests
         [Fact]
         public async Task TrackingContext_GivenMultipleTasks_ThenOriginatorUtcTimestampPersists()
         {
-            TrackingContext.NewCurrentIfEmpty();
+            TrackingContext.NewCurrent();
 
             DateTime masterOriginatorUtcTimestamp = TrackingContext.Current.OriginatorUtcTimestamp;
 
@@ -173,7 +173,7 @@ namespace Zametek.Utility.Tests
         [Fact]
         public async Task TrackingContext_GivenNestedMultipleTasks_ThenCallChainIdPersists()
         {
-            TrackingContext.NewCurrentIfEmpty();
+            TrackingContext.NewCurrent();
 
             Guid masterCallChainId = TrackingContext.Current.CallChainId;
 
@@ -224,7 +224,7 @@ namespace Zametek.Utility.Tests
         [Fact]
         public async Task TrackingContext_GivenNestedMultipleTasks_ThenCallChainIdCorresponds()
         {
-            TrackingContext.NewCurrentIfEmpty();
+            TrackingContext.NewCurrent();
 
             Guid masterCallChainId = TrackingContext.Current.CallChainId;
 

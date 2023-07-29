@@ -206,5 +206,18 @@ namespace Zametek.Utility.Tests
             test.Contains(DummySafeEnumString.StateE).Should().BeFalse();
             test.Contains(DummySafeEnumString.StateF).Should().BeFalse();
         }
+
+        [Fact]
+        public void SafeEnumString_GivenGetAll_WhenCheckContainsEnums_ThenShouldBeTrue()
+        {
+            var all = SafeEnumStringHelper.GetAll<DummySafeEnumString>();
+            all.Contains(DummySafeEnumString.StateA).Should().BeTrue();
+            all.Contains(DummySafeEnumString.StateB).Should().BeTrue();
+            all.Contains(DummySafeEnumString.StateC).Should().BeTrue();
+            all.Contains(DummySafeEnumString.StateD).Should().BeTrue();
+            all.Contains(DummySafeEnumString.StateE).Should().BeTrue();
+            all.Contains(DummySafeEnumString.StateF).Should().BeTrue();
+            all.Contains(new DummySafeEnumString("StateG")).Should().BeFalse();
+        }
     }
 }

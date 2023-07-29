@@ -46,7 +46,9 @@ namespace Zametek.Utility
             return this;
         }
 
-        public TypeSwitch<TSource> Case(Type targetType, Action<object> action)
+        public TypeSwitch<TSource> Case(
+            Type targetType,
+            Action<object> action)
         {
             if (m_Source == null)
             {

@@ -107,9 +107,9 @@ namespace Zametek.Utility
             return Convert.ToBase64String(input);
         }
 
-        public static byte[] ObjectToByteArray<T>(this T input) where T : class
+        public static byte[] ObjectToByteArray<T>(this T input)
         {
-            if (input is null)
+            if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -118,7 +118,7 @@ namespace Zametek.Utility
             return json.StringToByteArray();
         }
 
-        public static T ByteArrayToObject<T>(this byte[] input) where T : class
+        public static T ByteArrayToObject<T>(this byte[] input)
         {
             if (input is null)
             {
@@ -129,9 +129,9 @@ namespace Zametek.Utility
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static T CloneObject<T>(this T input) where T : class
+        public static T CloneObject<T>(this T input)
         {
-            if (input is null)
+            if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -139,9 +139,9 @@ namespace Zametek.Utility
             return input.ObjectToByteArray().ByteArrayToObject<T>();
         }
 
-        public static string ObjectToBase64String<T>(this T input) where T : class
+        public static string ObjectToBase64String<T>(this T input)
         {
-            if (input is null)
+            if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
@@ -149,7 +149,7 @@ namespace Zametek.Utility
             return input.ObjectToByteArray().ByteArrayToBase64String();
         }
 
-        public static T Base64StringToObject<T>(this string input) where T : class
+        public static T Base64StringToObject<T>(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
             {

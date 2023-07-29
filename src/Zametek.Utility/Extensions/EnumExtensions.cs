@@ -7,7 +7,9 @@ namespace Zametek.Utility
 {
     public static class EnumExtensions
     {
-        public static void ValidateValue<T>(this object value, string argumentName)
+        public static void ValidateValue<T>(
+            this object value,
+            string argumentName)
         {
             if (value is null)
             {

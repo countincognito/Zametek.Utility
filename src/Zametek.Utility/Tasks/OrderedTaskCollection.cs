@@ -85,7 +85,9 @@ namespace Zametek.Utility
             }
         }
 
-        private static void SetResult(TaskCompletionSource<T> tcs, Task<T> task)
+        private static void SetResult(
+            TaskCompletionSource<T> tcs,
+            Task<T> task)
         {
             if (tcs is null)
             {
