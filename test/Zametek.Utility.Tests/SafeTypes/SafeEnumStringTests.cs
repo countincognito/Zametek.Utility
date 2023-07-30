@@ -56,6 +56,25 @@ namespace Zametek.Utility.Tests
             (test != DummySafeEnumString.StateA).Should().BeTrue();
         }
 
+
+        [Fact]
+        public void SafeEnumString_GivenIdenticalStringValue_WhenCaseIsIdentical_ThenIsTrue()
+        {
+            string stateAString = @"StateA";
+            DummySafeEnumString test = DummySafeEnumString.StateA;
+            (test == stateAString).Should().BeTrue();
+            (test != stateAString).Should().BeFalse();
+        }
+
+        [Fact]
+        public void SafeEnumString_GivenIdenticalStringValue_WhenCaseIsDifferent_ThenIsFalse()
+        {
+            string stateAString = @"sTaTeA";
+            DummySafeEnumString test = DummySafeEnumString.StateA;
+            (test == stateAString).Should().BeFalse();
+            (test != stateAString).Should().BeTrue();
+        }
+
         #endregion
 
         #region < and >=
