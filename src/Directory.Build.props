@@ -1,0 +1,26 @@
+<Project>
+
+  <!--
+    Deterministic builds, Source Link and a symbol package, as in Zametek.Maths.Graphs.
+
+    A Release build starts each source path in the symbols with "/_/", in place of the folder of the repository on the
+    build machine (ContinuousIntegrationBuild). Thus, the package does not show the folders of the machine that packed it.
+    The package is packed on a local machine, and so the property depends on the configuration, and not on a CI server.
+    A Debug build keeps the full paths, which the debugger uses to find the files.
+
+    The pack also makes a symbol package (.snupkg). "dotnet nuget push" uploads it with the .nupkg that is in the same
+    folder. Source Link in the symbols points to the files of the commit on GitHub, and the package records the
+    repository and the commit (PublishRepositoryUrl).
+
+    This file is in src, and so it does not apply to the test project. FluentAssertions reads the source file of a test to
+    name the subject of an assertion that fails, and it cannot read "/_/test/...".
+  -->
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild Condition="'$(Configuration)' == 'Release'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+</Project>
