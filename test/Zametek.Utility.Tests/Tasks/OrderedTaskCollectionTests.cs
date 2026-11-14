@@ -89,7 +89,7 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public void OrderedTaskCollection_GivenATaskThatCompletedBeforeTheCollection_WhenEnumerated_ThenTheFirstTaskIsAlreadyComplete()
+        public async Task OrderedTaskCollection_GivenATaskThatCompletedBeforeTheCollection_WhenEnumerated_ThenTheFirstTaskIsAlreadyComplete()
         {
             var pending = new TaskCompletionSource<int>();
             var tasks = new OrderedTaskCollection<int>(
@@ -102,7 +102,7 @@ namespace Zametek.Utility.Tests
             Task<int> first = tasks.First();
 
             first.IsCompleted.ShouldBeTrue();
-            first.Result.ShouldBe(0);
+            (await first).ShouldBe(0);
             pending.SetResult(1);
         }
 
@@ -150,7 +150,7 @@ namespace Zametek.Utility.Tests
 
             await consumer;
             ranInside.ShouldBeFalse();
-            first.Result.ShouldBe(1);
+            (await first).ShouldBe(1);
         }
     }
 }
