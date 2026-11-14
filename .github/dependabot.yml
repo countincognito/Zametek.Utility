@@ -22,8 +22,3 @@ updates:
       nuget-minor-and-patch:
         patterns: ["*"]
         update-types: [minor, patch]
-    ignore:
-      # FluentAssertions 8 changed its licence: commercial use needs a paid licence from Xceed. A move to it is a
-      # decision, not an update.
-      - dependency-name: FluentAssertions
-        update-types: ["version-update:semver-major"]

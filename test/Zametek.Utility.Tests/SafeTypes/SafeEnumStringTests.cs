@@ -1,5 +1,6 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Zametek.Utility.Tests
@@ -12,48 +13,48 @@ namespace Zametek.Utility.Tests
         public void SafeEnumString_GivenNullValue_WhenEquatedToNull_ThenIsEqual()
         {
             DummySafeEnumString test = null;
-            (test is null).Should().BeTrue();
-            (test == DummySafeEnumString.StateA).Should().BeFalse();
+            (test is null).ShouldBeTrue();
+            (test == DummySafeEnumString.StateA).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenNullValue_WhenEquatedToNotNull_ThenIsNotEqual()
         {
             DummySafeEnumString test = null;
-            (test != null).Should().BeFalse();
-            (test != DummySafeEnumString.StateA).Should().BeTrue();
+            (test != null).ShouldBeFalse();
+            (test != DummySafeEnumString.StateA).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenSameStringValue_WhenEquatedToSelf_ThenIsTrue()
         {
             string test = DummySafeEnumString.StateA.Value;
-            (test == DummySafeEnumString.StateA).Should().BeTrue();
-            (test != DummySafeEnumString.StateA).Should().BeFalse();
+            (test == DummySafeEnumString.StateA).ShouldBeTrue();
+            (test != DummySafeEnumString.StateA).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherStringValue_WhenEquatedToSelf_ThenIsFalse()
         {
             string test = DummySafeEnumString.StateB.Value;
-            (test == DummySafeEnumString.StateA).Should().BeFalse();
-            (test != DummySafeEnumString.StateA).Should().BeTrue();
+            (test == DummySafeEnumString.StateA).ShouldBeFalse();
+            (test != DummySafeEnumString.StateA).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenSameSafeEnumValue_WhenEquatedToSelf_ThenIsTrue()
         {
             DummySafeEnumString test = DummySafeEnumString.StateA;
-            (test == DummySafeEnumString.StateA).Should().BeTrue();
-            (test != DummySafeEnumString.StateA).Should().BeFalse();
+            (test == DummySafeEnumString.StateA).ShouldBeTrue();
+            (test != DummySafeEnumString.StateA).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenEquatedToSelf_ThenIsFalse()
         {
             DummySafeEnumString test = DummySafeEnumString.StateB;
-            (test == DummySafeEnumString.StateA).Should().BeFalse();
-            (test != DummySafeEnumString.StateA).Should().BeTrue();
+            (test == DummySafeEnumString.StateA).ShouldBeFalse();
+            (test != DummySafeEnumString.StateA).ShouldBeTrue();
         }
 
 
@@ -62,8 +63,8 @@ namespace Zametek.Utility.Tests
         {
             string stateAString = @"StateA";
             DummySafeEnumString test = DummySafeEnumString.StateA;
-            (test == stateAString).Should().BeTrue();
-            (test != stateAString).Should().BeFalse();
+            (test == stateAString).ShouldBeTrue();
+            (test != stateAString).ShouldBeFalse();
         }
 
         [Fact]
@@ -71,8 +72,8 @@ namespace Zametek.Utility.Tests
         {
             string stateAString = @"sTaTeA";
             DummySafeEnumString test = DummySafeEnumString.StateA;
-            (test == stateAString).Should().BeFalse();
-            (test != stateAString).Should().BeTrue();
+            (test == stateAString).ShouldBeFalse();
+            (test != stateAString).ShouldBeTrue();
         }
 
         #endregion
@@ -83,32 +84,32 @@ namespace Zametek.Utility.Tests
         public void SafeEnumString_GivenNullValue_WhenLessThanNull_ThenIsFalse()
         {
             DummySafeEnumString test = null;
-            (test < null).Should().BeFalse();
-            (test >= DummySafeEnumString.StateA).Should().BeFalse();
+            (test < null).ShouldBeFalse();
+            (test >= DummySafeEnumString.StateA).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenSameSafeEnumValue_WhenLessThanSelf_ThenIsFalse()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test < DummySafeEnumString.StateC).Should().BeFalse();
-            (test >= DummySafeEnumString.StateC).Should().BeTrue();
+            (test < DummySafeEnumString.StateC).ShouldBeFalse();
+            (test >= DummySafeEnumString.StateC).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenLessThanLowerValue_ThenIsFalse()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test < DummySafeEnumString.StateA).Should().BeFalse();
-            (test >= DummySafeEnumString.StateA).Should().BeTrue();
+            (test < DummySafeEnumString.StateA).ShouldBeFalse();
+            (test >= DummySafeEnumString.StateA).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenLessThanHigherValue_ThenIsTrue()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test < DummySafeEnumString.StateF).Should().BeTrue();
-            (test >= DummySafeEnumString.StateF).Should().BeFalse();
+            (test < DummySafeEnumString.StateF).ShouldBeTrue();
+            (test >= DummySafeEnumString.StateF).ShouldBeFalse();
         }
 
         #endregion
@@ -119,32 +120,32 @@ namespace Zametek.Utility.Tests
         public void SafeEnumString_GivenNullValue_WhenGreaterThanNull_ThenIsFalse()
         {
             DummySafeEnumString test = null;
-            (test > null).Should().BeFalse();
-            (test <= DummySafeEnumString.StateA).Should().BeTrue();
+            (test > null).ShouldBeFalse();
+            (test <= DummySafeEnumString.StateA).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenSameSafeEnumValue_WhenGreaterThanSelf_ThenIsFalse()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test > DummySafeEnumString.StateC).Should().BeFalse();
-            (test <= DummySafeEnumString.StateC).Should().BeTrue();
+            (test > DummySafeEnumString.StateC).ShouldBeFalse();
+            (test <= DummySafeEnumString.StateC).ShouldBeTrue();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenGreaterThanLowerValue_ThenIsTrue()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test > DummySafeEnumString.StateA).Should().BeTrue();
-            (test <= DummySafeEnumString.StateA).Should().BeFalse();
+            (test > DummySafeEnumString.StateA).ShouldBeTrue();
+            (test <= DummySafeEnumString.StateA).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenGreaterThanHigherValue_ThenIsFalse()
         {
             DummySafeEnumString test = DummySafeEnumString.StateC;
-            (test > DummySafeEnumString.StateF).Should().BeFalse();
-            (test <= DummySafeEnumString.StateF).Should().BeTrue();
+            (test > DummySafeEnumString.StateF).ShouldBeFalse();
+            (test <= DummySafeEnumString.StateF).ShouldBeTrue();
         }
 
         #endregion
@@ -153,16 +154,16 @@ namespace Zametek.Utility.Tests
         public void SafeEnumString_GivenSameSafeEnumValue_WhenCallEqualsToSelf_ThenIsEqual()
         {
             DummySafeEnumString test = DummySafeEnumString.StateA;
-            test.Equals(DummySafeEnumString.StateA).Should().BeTrue();
-            (!test.Equals(DummySafeEnumString.StateA)).Should().BeFalse();
+            test.Equals(DummySafeEnumString.StateA).ShouldBeTrue();
+            (!test.Equals(DummySafeEnumString.StateA)).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenOtherSafeEnumValue_WhenCallEqualsToSelf_ThenIsNotEqual()
         {
             DummySafeEnumString test = DummySafeEnumString.StateB;
-            test.Equals(DummySafeEnumString.StateA).Should().BeFalse();
-            (!test.Equals(DummySafeEnumString.StateA)).Should().BeTrue();
+            test.Equals(DummySafeEnumString.StateA).ShouldBeFalse();
+            (!test.Equals(DummySafeEnumString.StateA)).ShouldBeTrue();
         }
 
         [Fact]
@@ -178,9 +179,9 @@ namespace Zametek.Utility.Tests
                 DummySafeEnumString.StateF,
             };
             test.Shuffle();
-            test.Should().NotBeInAscendingOrder();
+            test.SequenceEqual(test.OrderBy(x => x)).ShouldBeFalse();
             test.Sort();
-            test.Should().BeInAscendingOrder();
+            test.ShouldBeInOrder(SortDirection.Ascending);
         }
 
         [Fact]
@@ -206,7 +207,7 @@ namespace Zametek.Utility.Tests
             };
             test.Shuffle();
             expected.Shuffle();
-            test.Should().BeEquivalentTo(expected);
+            test.ShouldBe(expected, ignoreOrder: true);
         }
 
         [Fact]
@@ -218,25 +219,25 @@ namespace Zametek.Utility.Tests
                 DummySafeEnumString.StateB,
                 DummySafeEnumString.StateC,
             };
-            test.Contains(DummySafeEnumString.StateA).Should().BeTrue();
-            test.Contains(DummySafeEnumString.StateB).Should().BeTrue();
-            test.Contains(DummySafeEnumString.StateC).Should().BeTrue();
-            test.Contains(DummySafeEnumString.StateD).Should().BeFalse();
-            test.Contains(DummySafeEnumString.StateE).Should().BeFalse();
-            test.Contains(DummySafeEnumString.StateF).Should().BeFalse();
+            test.Contains(DummySafeEnumString.StateA).ShouldBeTrue();
+            test.Contains(DummySafeEnumString.StateB).ShouldBeTrue();
+            test.Contains(DummySafeEnumString.StateC).ShouldBeTrue();
+            test.Contains(DummySafeEnumString.StateD).ShouldBeFalse();
+            test.Contains(DummySafeEnumString.StateE).ShouldBeFalse();
+            test.Contains(DummySafeEnumString.StateF).ShouldBeFalse();
         }
 
         [Fact]
         public void SafeEnumString_GivenGetAll_WhenCheckContainsEnums_ThenShouldBeTrue()
         {
             var all = SafeEnumStringHelper.GetAll<DummySafeEnumString>();
-            all.Contains(DummySafeEnumString.StateA).Should().BeTrue();
-            all.Contains(DummySafeEnumString.StateB).Should().BeTrue();
-            all.Contains(DummySafeEnumString.StateC).Should().BeTrue();
-            all.Contains(DummySafeEnumString.StateD).Should().BeTrue();
-            all.Contains(DummySafeEnumString.StateE).Should().BeTrue();
-            all.Contains(DummySafeEnumString.StateF).Should().BeTrue();
-            all.Contains(new DummySafeEnumString("StateG")).Should().BeFalse();
+            all.Contains(DummySafeEnumString.StateA).ShouldBeTrue();
+            all.Contains(DummySafeEnumString.StateB).ShouldBeTrue();
+            all.Contains(DummySafeEnumString.StateC).ShouldBeTrue();
+            all.Contains(DummySafeEnumString.StateD).ShouldBeTrue();
+            all.Contains(DummySafeEnumString.StateE).ShouldBeTrue();
+            all.Contains(DummySafeEnumString.StateF).ShouldBeTrue();
+            all.Contains(new DummySafeEnumString("StateG")).ShouldBeFalse();
         }
     }
 }

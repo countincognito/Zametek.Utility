@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +18,14 @@ namespace Zametek.Utility.Tests
                 {
                     Task.FromResult(1),
                 });
-            tasks.Should().NotBeEmpty();
+            tasks.ShouldNotBeEmpty();
         }
 
         [Fact]
         public void OrderedTaskCollection_GivenCtor_WhenCalledWithNullTaskList_ThenShouldThrowArgumentNullException()
         {
             Action act = () => new OrderedTaskCollection<int>(null);
-            act.Should().Throw<ArgumentNullException>();
+            act.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -56,9 +56,9 @@ namespace Zametek.Utility.Tests
                 results.Add(await task);
             }
 
-            results[0].Should().Be(0);
-            results[1].Should().Be(1);
-            results[2].Should().Be(2);
+            results[0].ShouldBe(0);
+            results[1].ShouldBe(1);
+            results[2].ShouldBe(2);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace Zametek.Utility.Tests
                 }
             };
 
-            act.Should().Throw<AggregateException>();
+            act.ShouldThrow<AggregateException>();
         }
 
         [Fact]
@@ -101,8 +101,8 @@ namespace Zametek.Utility.Tests
 
             Task<int> first = tasks.First();
 
-            first.IsCompleted.Should().BeTrue();
-            first.Result.Should().Be(0);
+            first.IsCompleted.ShouldBeTrue();
+            first.Result.ShouldBe(0);
             pending.SetResult(1);
         }
 
@@ -121,8 +121,8 @@ namespace Zametek.Utility.Tests
 
             var tasks = new OrderedTaskCollection<int>(lazyTasks());
 
-            tasks.Take(10).Count().Should().Be(3);
-            enumerations.Should().Be(1);
+            tasks.Take(10).Count().ShouldBe(3);
+            enumerations.ShouldBe(1);
         }
 
         [Fact]
@@ -149,8 +149,8 @@ namespace Zametek.Utility.Tests
             completing = false;
 
             await consumer;
-            ranInside.Should().BeFalse();
-            first.Result.Should().Be(1);
+            ranInside.ShouldBeFalse();
+            first.Result.ShouldBe(1);
         }
     }
 }

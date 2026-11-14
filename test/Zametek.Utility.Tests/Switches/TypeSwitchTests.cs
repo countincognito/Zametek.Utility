@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit;
 
 namespace Zametek.Utility.Tests
@@ -34,8 +34,8 @@ namespace Zametek.Utility.Tests
                     referenceMatch = item == x;
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            defaultExecuted.Should().BeTrue();
+            referenceMatch.ShouldBeTrue();
+            defaultExecuted.ShouldBeTrue();
         }
 
         [Fact]
@@ -55,9 +55,9 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -77,9 +77,9 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -104,10 +104,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isAlsoOfTypeA.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            isAlsoOfTypeA.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -132,10 +132,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isAlsoOfTypeA.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            isAlsoOfTypeA.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -155,9 +155,9 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -177,9 +177,9 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -204,10 +204,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isOfTypeB1.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            isOfTypeB1.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -232,10 +232,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeTrue();
-            isOfTypeB1.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeTrue();
+            isOfTypeB1.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -260,10 +260,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeFalse();
+            isOfTypeB1.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -288,10 +288,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeFalse();
+            isOfTypeB1.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -321,11 +321,11 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            isOfTypeB2.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeFalse();
+            isOfTypeB1.ShouldBeTrue();
+            isOfTypeB2.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -355,11 +355,11 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            referenceMatch.Should().BeTrue();
-            isOfTypeA.Should().BeFalse();
-            isOfTypeB1.Should().BeTrue();
-            isOfTypeB2.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            referenceMatch.ShouldBeTrue();
+            isOfTypeA.ShouldBeFalse();
+            isOfTypeB1.ShouldBeTrue();
+            isOfTypeB2.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using FluentAssertions;
+using Shouldly;
 using System.Linq;
 using Xunit;
 
@@ -26,7 +26,7 @@ namespace Zametek.Utility.Tests
                     .Create();
 
                 var itemCopy = item.CloneObject();
-                comparer.Compare(item, itemCopy).Should().Be(0);
+                comparer.Compare(item, itemCopy).ShouldBe(0);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Zametek.Utility.Tests
                 var items = fixture.Build<DummyObject>()
                     .CreateMany(2)
                     .ToList();
-                comparer.Compare(items[0], items[1]).Should().NotBe(0);
+                comparer.Compare(items[0], items[1]).ShouldNotBe(0);
             }
         }
     }
