@@ -55,8 +55,10 @@ To break the API on purpose, do one of two things:
 
 ## Pins
 
-Nothing in the workflows moves by itself:
+Nothing in the workflows moves by itself, except the version of the .NET 10 SDK:
 
 - The actions are pinned to commit SHAs, and Dependabot proposes the updates (weekly, as pull requests against `develop`). It does the same for the NuGet packages.
-- The .NET SDK is pinned in `ci.yml` and `release.yml`. Bump the two together. `global.json` keeps `dotnet` on .NET 10, because the runner image can also have a later SDK.
+
+- The .NET SDK stays on .NET 10, but its version can move. `ci.yml` and `release.yml` install a .NET 10 SDK with `setup-dotnet`, and `global.json` keeps `dotnet` on .NET 10. `dotnet` takes the newest .NET 10 SDK of the runner, and a new image can bring a later one. Without `global.json`, `dotnet` takes the newest SDK of the image, and the image of 2026-11-11 has 11.0.100. Bump the version in the two workflows together.
+
 - The runners are `ubuntu-24.04`, not `ubuntu-latest`.

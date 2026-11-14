@@ -34,9 +34,9 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
-          # Pinned rather than '10.x', so that a new SDK cannot change the build without a change to the code. Bump it
-          # deliberately, and in release.yml too. global.json keeps dotnet on .NET 10: without it, dotnet takes the newest
-          # SDK of the runner image, and the image can have a later major version.
+          # global.json keeps dotnet on .NET 10. Without it, dotnet takes the newest SDK of the runner image, and the image
+          # of 2026-11-11 has 11.0.100. With it, dotnet takes the newest .NET 10 SDK of the runner: this one, or a later one
+          # that the image has. Bump this version deliberately, and in release.yml too.
           dotnet-version: '10.0.404'
 
       - name: Restore dependencies
