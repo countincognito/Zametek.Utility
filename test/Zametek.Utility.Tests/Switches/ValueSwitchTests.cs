@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit;
 
 namespace Zametek.Utility.Tests
@@ -27,8 +27,8 @@ namespace Zametek.Utility.Tests
                     valueMatch = string.Equals(item, x);
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            defaultExecuted.Should().BeTrue();
+            valueMatch.ShouldBeTrue();
+            defaultExecuted.ShouldBeTrue();
         }
 
         [Fact]
@@ -48,9 +48,9 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            valueMatch.ShouldBeTrue();
+            equalsA.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -75,10 +75,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeTrue();
-            alsoEqualsA.Should().BeFalse();
-            defaultExecuted.Should().BeFalse();
+            valueMatch.ShouldBeTrue();
+            equalsA.ShouldBeTrue();
+            alsoEqualsA.ShouldBeFalse();
+            defaultExecuted.ShouldBeFalse();
         }
 
         [Fact]
@@ -103,10 +103,10 @@ namespace Zametek.Utility.Tests
                 {
                     defaultExecuted = true;
                 });
-            valueMatch.Should().BeTrue();
-            equalsA.Should().BeFalse();
-            equalsB.Should().BeTrue();
-            defaultExecuted.Should().BeFalse();
+            valueMatch.ShouldBeTrue();
+            equalsA.ShouldBeFalse();
+            equalsB.ShouldBeTrue();
+            defaultExecuted.ShouldBeFalse();
         }
     }
 }

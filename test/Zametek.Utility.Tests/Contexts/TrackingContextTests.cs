@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -28,10 +28,10 @@ namespace Zametek.Utility.Tests
 
             TrackingContext tc2 = TrackingContext.DeSerialize(bytes);
 
-            bytes.Should().NotBeEmpty();
-            tc2.CallChainId.Should().Be(tc1.CallChainId);
-            tc2.OriginatorUtcTimestamp.Should().Be(tc1.OriginatorUtcTimestamp);
-            tc2.ExtraHeaders.ToList().Should().BeEquivalentTo(tc1.ExtraHeaders.ToList());
+            bytes.ShouldNotBeEmpty();
+            tc2.CallChainId.ShouldBe(tc1.CallChainId);
+            tc2.OriginatorUtcTimestamp.ShouldBe(tc1.OriginatorUtcTimestamp);
+            tc2.ExtraHeaders.ToList().ShouldBe(tc1.ExtraHeaders.ToList(), ignoreOrder: true);
         }
 
         [Fact]
@@ -72,10 +72,10 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                result.ShouldBeTrue();
             }
 
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            TrackingContext.Current.CallChainId.ShouldBe(masterCallChainId);
         }
 
         [Fact]
@@ -116,10 +116,10 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                result.ShouldBeTrue();
             }
 
-            TrackingContext.Current.OriginatorUtcTimestamp.Should().Be(masterOriginatorUtcTimestamp);
+            TrackingContext.Current.OriginatorUtcTimestamp.ShouldBe(masterOriginatorUtcTimestamp);
         }
 
         [Fact]
@@ -166,7 +166,7 @@ namespace Zametek.Utility.Tests
 
             foreach (bool result in results)
             {
-                result.Should().BeTrue();
+                result.ShouldBeTrue();
             }
         }
 
@@ -211,14 +211,14 @@ namespace Zametek.Utility.Tests
                         result4 = masterCallChainId == tc4.CallChainId;
                     });
                 });
-            });
+            }, TestContext.Current.CancellationToken);
 
-            result0.Should().BeTrue();
-            result1.Should().BeTrue();
-            result2.Should().BeTrue();
-            result3.Should().BeTrue();
-            result4.Should().BeTrue();
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            result0.ShouldBeTrue();
+            result1.ShouldBeTrue();
+            result2.ShouldBeTrue();
+            result3.ShouldBeTrue();
+            result4.ShouldBeTrue();
+            TrackingContext.Current.CallChainId.ShouldBe(masterCallChainId);
         }
 
         [Fact]
@@ -304,21 +304,21 @@ namespace Zametek.Utility.Tests
 
                 TrackingContext tc6 = TrackingContext.Current;
                 result11 = tc0.CallChainId == tc6.CallChainId;
-            });
+            }, TestContext.Current.CancellationToken);
 
-            result0.Should().BeTrue();
-            result1.Should().BeTrue();
-            result2.Should().BeTrue();
-            result3.Should().BeTrue();
-            result4.Should().BeTrue();
-            result5.Should().BeTrue();
-            result6.Should().BeTrue();
-            result7.Should().BeTrue();
-            result8.Should().BeTrue();
-            result9.Should().BeTrue();
-            result10.Should().BeTrue();
-            result11.Should().BeTrue();
-            TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+            result0.ShouldBeTrue();
+            result1.ShouldBeTrue();
+            result2.ShouldBeTrue();
+            result3.ShouldBeTrue();
+            result4.ShouldBeTrue();
+            result5.ShouldBeTrue();
+            result6.ShouldBeTrue();
+            result7.ShouldBeTrue();
+            result8.ShouldBeTrue();
+            result9.ShouldBeTrue();
+            result10.ShouldBeTrue();
+            result11.ShouldBeTrue();
+            TrackingContext.Current.CallChainId.ShouldBe(masterCallChainId);
         }
 
         [Fact]
@@ -334,22 +334,22 @@ namespace Zametek.Utility.Tests
                 runningTasks.Add(Task.Run(() =>
                 {
                     TrackingContext.ClearCurrent();
-                    TrackingContext.Current.Should().BeNull();
+                    TrackingContext.Current.ShouldBeNull();
 
                     ParallelTester.Test(i, results, nullChecks);
-                }));
+                }, TestContext.Current.CancellationToken));
             }
 
             await Task.WhenAll(runningTasks.ToArray());
 
             foreach (bool result in results)
             {
-                result.Should().BeFalse();
+                result.ShouldBeFalse();
             }
 
             foreach (bool nullCheck in nullChecks)
             {
-                nullCheck.Should().BeFalse();
+                nullCheck.ShouldBeFalse();
             }
         }
 
@@ -377,8 +377,8 @@ namespace Zametek.Utility.Tests
                     nullChecks.Push(newCallChainId == Guid.Empty);
                 }).GetAwaiter().GetResult();
 
-                TrackingContext.Current.Should().NotBeNull();
-                TrackingContext.Current.CallChainId.Should().Be(masterCallChainId);
+                TrackingContext.Current.ShouldNotBeNull();
+                TrackingContext.Current.CallChainId.ShouldBe(masterCallChainId);
             }
         }
     }

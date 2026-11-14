@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using FluentAssertions;
+using Shouldly;
 using System;
 using Xunit;
 
@@ -10,25 +10,25 @@ namespace Zametek.Utility.Tests
         [Fact]
         public void ConversionExtensions_GivenIsDataContract_WhenInputIsDataContract_ThenIsTrue()
         {
-            new DummyObject().IsDataContract().Should().BeFalse();
-            new DummyObjectDataContract().IsDataContract().Should().BeTrue();
-            new DummyObjectSerializable().IsDataContract().Should().BeFalse();
+            new DummyObject().IsDataContract().ShouldBeFalse();
+            new DummyObjectDataContract().IsDataContract().ShouldBeTrue();
+            new DummyObjectSerializable().IsDataContract().ShouldBeFalse();
 
-            typeof(DummyObject).IsDataContract().Should().BeFalse();
-            typeof(DummyObjectDataContract).IsDataContract().Should().BeTrue();
-            typeof(DummyObjectSerializable).IsDataContract().Should().BeFalse();
+            typeof(DummyObject).IsDataContract().ShouldBeFalse();
+            typeof(DummyObjectDataContract).IsDataContract().ShouldBeTrue();
+            typeof(DummyObjectSerializable).IsDataContract().ShouldBeFalse();
         }
 
         [Fact]
         public void ConversionExtensions_GivenCanSerialize_WhenInputCanBeSerialized_ThenIsTrue()
         {
-            new DummyObject().CanSerialize().Should().BeFalse();
-            new DummyObjectDataContract().CanSerialize().Should().BeTrue();
-            new DummyObjectSerializable().CanSerialize().Should().BeTrue();
+            new DummyObject().CanSerialize().ShouldBeFalse();
+            new DummyObjectDataContract().CanSerialize().ShouldBeTrue();
+            new DummyObjectSerializable().CanSerialize().ShouldBeTrue();
 
-            typeof(DummyObject).CanSerialize().Should().BeFalse();
-            typeof(DummyObjectDataContract).CanSerialize().Should().BeTrue();
-            typeof(DummyObjectSerializable).CanSerialize().Should().BeTrue();
+            typeof(DummyObject).CanSerialize().ShouldBeFalse();
+            typeof(DummyObjectDataContract).CanSerialize().ShouldBeTrue();
+            typeof(DummyObjectSerializable).CanSerialize().ShouldBeTrue();
         }
 
         [Fact]
@@ -37,23 +37,23 @@ namespace Zametek.Utility.Tests
             Action act;
 
             act = () => new DummyObject().ThrowIfCannotSerialize();
-            act.Should().Throw<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
 
             act = () => new DummyObjectDataContract().ThrowIfCannotSerialize();
-            act.Should().NotThrow();
+            act.ShouldNotThrow();
 
             act = () => new DummyObjectSerializable().ThrowIfCannotSerialize();
-            act.Should().NotThrow();
+            act.ShouldNotThrow();
 
 
             act = () => typeof(DummyObject).ThrowIfCannotSerialize();
-            act.Should().Throw<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
 
             act = () => typeof(DummyObjectDataContract).ThrowIfCannotSerialize();
-            act.Should().NotThrow();
+            act.ShouldNotThrow();
 
             act = () => typeof(DummyObjectSerializable).ThrowIfCannotSerialize();
-            act.Should().NotThrow();
+            act.ShouldNotThrow();
         }
 
         [Fact]
@@ -66,12 +66,13 @@ namespace Zametek.Utility.Tests
 
             byte[] array = input.ObjectToByteArray();
 
-            array.Should().NotBeNullOrEmpty();
+            array.ShouldNotBeNull();
+            array.ShouldNotBeEmpty();
 
             var output = array.ByteArrayToObject<DummyObjectSerializable>();
 
-            output.Should().NotBe(input);
-            output.Should().BeEquivalentTo(input);
+            output.ShouldNotBe(input);
+            output.ShouldBeEquivalentTo(input);
         }
 
         [Fact]
@@ -84,10 +85,11 @@ namespace Zametek.Utility.Tests
 
             byte[] array = input.ObjectToByteArray();
 
-            array.Should().NotBeNullOrEmpty();
+            array.ShouldNotBeNull();
+            array.ShouldNotBeEmpty();
 
             Action act = () => array.ByteArrayToObject<DummyObject>();
-            act.Should().Throw<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Fact]
@@ -100,12 +102,12 @@ namespace Zametek.Utility.Tests
 
             string base64 = input.ObjectToBase64String();
 
-            base64.Should().NotBeNullOrEmpty();
+            base64.ShouldNotBeNullOrEmpty();
 
             var output = base64.Base64StringToObject<DummyObjectSerializable>();
 
-            output.Should().NotBe(input);
-            output.Should().BeEquivalentTo(input);
+            output.ShouldNotBe(input);
+            output.ShouldBeEquivalentTo(input);
         }
 
         [Fact]
@@ -118,10 +120,10 @@ namespace Zametek.Utility.Tests
 
             string base64 = input.ObjectToBase64String();
 
-            base64.Should().NotBeNullOrEmpty();
+            base64.ShouldNotBeNullOrEmpty();
 
             Action act = () => base64.Base64StringToObject<DummyObject>();
-            act.Should().Throw<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Fact]
@@ -133,8 +135,8 @@ namespace Zametek.Utility.Tests
                 .Create();
 
             var output = input.CloneObject();
-            output.Should().NotBe(input);
-            output.Should().BeEquivalentTo(input);
+            output.ShouldNotBe(input);
+            output.ShouldBeEquivalentTo(input);
         }
     }
 }

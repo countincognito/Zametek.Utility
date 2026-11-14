@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Zametek.Utility/Zametek.Utility.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Zametek.Utility.Tests/Zametek.Utility.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace Zametek.Utility.Tests
         {
             DummyEnum dummyEnum = DummyEnum.StateA;
             Action act = () => dummyEnum.ValidateValue<DummyEnum>(nameof(dummyEnum));
-            act.Should().NotThrow();
+            act.ShouldNotThrow();
         }
 
         [Fact]
@@ -19,7 +19,7 @@ namespace Zametek.Utility.Tests
         {
             DummyEnum dummyEnum = (DummyEnum)100;
             Action act = () => dummyEnum.ValidateValue<DummyEnum>(nameof(dummyEnum));
-            act.Should().Throw<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Theory]
@@ -33,7 +33,7 @@ namespace Zametek.Utility.Tests
             DummyEnum @enum,
             string description)
         {
-            @enum.GetDescription().Should().Be(description);
+            @enum.GetDescription().ShouldBe(description);
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace Zametek.Utility.Tests
             string description,
             DummyEnum @enum)
         {
-            description.GetValueFromDescription<DummyEnum>().Should().Be(@enum);
+            description.GetValueFromDescription<DummyEnum>().ShouldBe(@enum);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Zametek.Utility.Tests
         {
             for (int i = 0; i < 10; i++)
             {
-                Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().Should().Be(DummyEnum.StateA);
+                Guid.NewGuid().ToFlatString().GetValueFromDescription<DummyEnum>().ShouldBe(DummyEnum.StateA);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Zametek.Utility.Tests
             string description,
             DummyEnum @enum)
         {
-            description.GetValueFromDescription<DummyEnum>().Should().Be(@enum);
+            description.GetValueFromDescription<DummyEnum>().ShouldBe(@enum);
         }
     }
 }
