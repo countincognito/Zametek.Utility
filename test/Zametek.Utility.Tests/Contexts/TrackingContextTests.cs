@@ -211,7 +211,7 @@ namespace Zametek.Utility.Tests
                         result4 = masterCallChainId == tc4.CallChainId;
                     });
                 });
-            });
+            }, TestContext.Current.CancellationToken);
 
             result0.ShouldBeTrue();
             result1.ShouldBeTrue();
@@ -304,7 +304,7 @@ namespace Zametek.Utility.Tests
 
                 TrackingContext tc6 = TrackingContext.Current;
                 result11 = tc0.CallChainId == tc6.CallChainId;
-            });
+            }, TestContext.Current.CancellationToken);
 
             result0.ShouldBeTrue();
             result1.ShouldBeTrue();
@@ -337,7 +337,7 @@ namespace Zametek.Utility.Tests
                     TrackingContext.Current.ShouldBeNull();
 
                     ParallelTester.Test(i, results, nullChecks);
-                }));
+                }, TestContext.Current.CancellationToken));
             }
 
             await Task.WhenAll(runningTasks.ToArray());

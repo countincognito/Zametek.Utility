@@ -29,36 +29,35 @@ namespace Zametek.Utility.Tests
         }
 
         [Fact]
-        public async Task OrderedTaskCollection_GivenForeach_WhenCalledWithTimedTasks_ThenShouldReturnInCorrectOrder()
+        public async Task OrderedTaskCollection_GivenForeach_WhenTasksCompleteInTurn_ThenShouldReturnInOrderOfCompletion()
         {
-            var task1 = Task.Run(() =>
-            {
-                Thread.Sleep(250);
-                return 1;
-            });
-            var task0 = Task.FromResult(0);
-            var task2 = Task.Run(() =>
-            {
-                Thread.Sleep(500);
-                return 2;
-            });
+            var source1 = new TaskCompletionSource<int>();
+            var source2 = new TaskCompletionSource<int>();
             var tasks = new OrderedTaskCollection<int>(
                 new[]
                 {
-                    task1,
-                    task2,
-                    task0,
+                    source1.Task,
+                    source2.Task,
+                    Task.FromResult(0),
                 });
             var results = new List<int>();
 
             foreach (Task<int> task in tasks)
             {
+                // A source completes only after the collection gives the task that waits for it. The second source
+                // completes first, and so the order of completion is not the order of the sequence.
+                if (results.Count == 1)
+                {
+                    source2.SetResult(2);
+                }
+                else if (results.Count == 2)
+                {
+                    source1.SetResult(1);
+                }
                 results.Add(await task);
             }
 
-            results[0].ShouldBe(0);
-            results[1].ShouldBe(1);
-            results[2].ShouldBe(2);
+            results.ShouldBe(new[] { 0, 2, 1 });
         }
 
         [Fact]
