@@ -9,10 +9,11 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/countincognito/Zametek.Utility</PackageProjectUrl>
     <Description>Zametek utility classes.</Description>
-    <Copyright>Copyright (c) 2023 Riccardo M Bennett-Lovsey</Copyright>
+    <Copyright>Copyright (c) 2026 Riccardo M Bennett-Lovsey</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <NeutralLanguage>en-GB</NeutralLanguage>
   </PropertyGroup>
 
@@ -28,6 +29,10 @@
 
   <ItemGroup>
     <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

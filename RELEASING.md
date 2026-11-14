@@ -4,7 +4,7 @@ A release is a tag on `master`. The tag starts a workflow that builds, tests and
 
 ## Steps
 
-1. **Set the version.** It is `<Version>` in `src/Zametek.Utility/Zametek.Utility.csproj`.
+1. **Set the version.** It is `<Version>` in `src/Zametek.Utility/Zametek.Utility.csproj`. Add the release notes to `README.md` too. That file is the readme of the package, so write it before the package is made.
 
 2. **Merge `develop` into `master`** with a pull request. CI runs on it, and only `develop` can be the source of a pull request to `master`.
 
