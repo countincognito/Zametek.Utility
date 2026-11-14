@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+  # A run on demand, from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # A new push to a pull request replaces the run that is still going for it. The runs for develop and master all
+  # finish, so that every commit on them has its result.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    # Pinned rather than ubuntu-latest, so that the image changes only when this line does.
+    runs-on: ubuntu-24.04
+    # A normal run takes 1 to 3 minutes; a hung test must not hold the runner for the default 6 hours.
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          # Pinned rather than '10.x', so that a new SDK cannot change the build without a change to the code. Bump it
+          # deliberately, and in release.yml too. global.json keeps dotnet on .NET 10: without it, dotnet takes the newest
+          # SDK of the runner image, and the image can have a later major version.
+          dotnet-version: '10.0.404'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Check code style
+        # 'style' and 'analyzers', not the whole of 'dotnet format', as in Zametek.Maths.Graphs: the whitespace check also
+        # compares the line endings, and these depend on the platform of the checkout (.gitattributes).
+        run: dotnet format style --verify-no-changes --verbosity minimal
+
+      - name: Check analyzer rules
+        run: dotnet format analyzers --verify-no-changes --verbosity minimal
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # No continue-on-error here: a failing test suite must fail the build.
+      - name: Run tests
+        run: |
+          dotnet test --no-build --configuration Release --verbosity normal \
+            --logger "trx;LogFileName=test-results.trx" \
+            --collect:"XPlat Code Coverage"
+
+      # Packing in every build brings a packaging problem to the pull request, not to the day of the release: a missing
+      # file, a broken reference, or a change that breaks the API of the last release on nuget.org, which pack.sh
+      # compares with. The release workflow packs with the same script.
+      - name: Pack
+        run: bash .github/scripts/pack.sh "$RUNNER_TEMP/packages"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: test-results
+          path: test/*/TestResults/test-results.trx
+
+      - name: Generate coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@861674232075b2c6bd1405a04c4bb9b150653e81 # 5.5.12
+        if: always()
+        with:
+          reports: test/*/TestResults/**/coverage.cobertura.xml
+          targetdir: CoverageReport
+          reporttypes: HtmlInline;MarkdownSummaryGithub
+
+      - name: Publish coverage summary
+        if: always()
+        run: cat ./CoverageReport/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: coverage-report
+          path: CoverageReport

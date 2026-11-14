@@ -1,0 +1,111 @@
+name: Release
+
+# A version tag builds, tests and packs the NuGet package, and keeps it as the artifact 'nuget-packages'.
+# Nothing is published from here: download the artifact and upload the package to nuget.org by hand (RELEASING.md).
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+  # A dry run from the Actions tab: the same build, tests and pack, on any branch, without the checks of the tag.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    name: Pack the NuGet package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The whole history, to see whether master holds the tagged commit.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check the tag
+        if: github.ref_type == 'tag'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/Zametek.Utility/Zametek.Utility.csproj)
+          echo "Tag $TAG; NuGet package $version"
+
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::The tag $TAG is not v$version, the version in src/Zametek.Utility/Zametek.Utility.csproj."
+            exit 1
+          fi
+
+          # A release comes from master. A pre-release, a tag with a suffix, may come from any branch.
+          if [[ "$TAG" != *-* ]] && ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::The commit of $TAG is not on master. Merge develop into master, then tag."
+            exit 1
+          fi
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          # Pinned, as in ci.yml: bump the two together.
+          dotnet-version: '10.0.404'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # No package leaves this workflow from a failing build.
+      - name: Run tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+      # A Release build starts each source path in the symbols with /_/ (ContinuousIntegrationBuild in
+      # src/Directory.Build.props), and the package records the repository and the commit it was built from.
+      - name: Pack
+        run: bash .github/scripts/pack.sh "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Check the packages
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/Zametek.Utility/Zametek.Utility.csproj)
+          cd artifacts
+          for extension in nupkg snupkg; do
+            if [ ! -f "Zametek.Utility.$version.$extension" ]; then
+              echo "::error::Zametek.Utility.$version.$extension was not packed."
+              exit 1
+            fi
+          done
+          if [ "$(ls | wc -l)" -ne 2 ]; then
+            echo "::error::Two files were expected in the artifacts folder:"
+            ls -l
+            exit 1
+          fi
+          ls -l
+          {
+            echo "## NuGet package $version"
+            echo
+            if [ "$REF_TYPE" = "tag" ]; then
+              echo "Built from the tag $REF_NAME, commit $GITHUB_SHA."
+            else
+              echo "**A dry run, not a release:** built from the branch $REF_NAME, commit $GITHUB_SHA."
+            fi
+            echo
+            echo '```'
+            sha256sum ./*.nupkg ./*.snupkg
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload packages
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: nuget-packages
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg
+          if-no-files-found: error
+          retention-days: 30

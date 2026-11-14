@@ -3,6 +3,10 @@
 ###############################################################################
 * text=auto
 
+# Shell scripts keep LF on every platform, so that bash on Windows can run them too.
+*.sh    text eol=lf
+*.bash  text eol=lf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #

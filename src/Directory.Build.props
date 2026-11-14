@@ -5,8 +5,9 @@
 
     A Release build starts each source path in the symbols with "/_/", in place of the folder of the repository on the
     build machine (ContinuousIntegrationBuild). Thus, the package does not show the folders of the machine that packed it.
-    The package is packed on a local machine, and so the property depends on the configuration, and not on a CI server.
-    A Debug build keeps the full paths, which the debugger uses to find the files.
+    The Release workflow packs on GitHub, and a pack on a local machine must give the same paths. Thus, the property
+    depends on the configuration, and not on a CI server. A Debug build keeps the full paths, which the debugger uses to
+    find the files.
 
     The pack also makes a symbol package (.snupkg). "dotnet nuget push" uploads it with the .nupkg that is in the same
     folder. Source Link in the symbols points to the files of the commit on GitHub, and the package records the

@@ -1,0 +1,29 @@
+# The workflows pin every action to a full commit SHA, with its version in a comment, so that a tag moved upstream
+# cannot change what runs. Dependabot keeps those pins current, and the NuGet dependencies too: each update arrives as a
+# pull request against develop. The minor and patch updates of one ecosystem share a pull request; a major version
+# arrives alone, so that it gets a review of its own.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: nuget
+    # One directory for each project: each holds one project file, and Directory.Build.props is found from there.
+    directories:
+      - /src/*
+      - /test/*
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      nuget-minor-and-patch:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      # FluentAssertions 8 changed its licence: commercial use needs a paid licence from Xceed. A move to it is a
+      # decision, not an update.
+      - dependency-name: FluentAssertions
+        update-types: ["version-update:semver-major"]
